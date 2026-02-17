@@ -3,159 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geetai Villa | Luxury Lonavala Escape</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Geetai Villa | The Royal Residency</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a059; --bg: #0a0a0a; --card: #161616; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: var(--bg); color: white; scroll-behavior: smooth; }
-        
-        /* Hero Section */
-        .hero { 
-            height: 90vh; 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/villa1.jpg'); 
+        :root {
+            --primary: #0f172a; /* Deep Midnight Blue */
+            --accent: #e2b17a;  /* Rose Gold / Champagne */
+            --text: #f8fafc;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary); color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* 1. Header & Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid rgba(226, 177, 122, 0.2);
+        }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--accent); letter-spacing: 3px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* 2. Hero Section with Background Image */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.5), var(--primary)), 
+                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1600'); 
             background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px;
         }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin: 0; letter-spacing: 5px; text-transform: uppercase; }
-        .hero p { color: var(--gold); letter-spacing: 4px; font-size: 1.1rem; font-weight: 300; margin-top: 10px; }
+        .hero h1 { 
+            font-family: 'Cinzel', serif; font-size: clamp(3rem, 10vw, 6rem); 
+            margin: 0; color: var(--accent); text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            animation: fadeInUp 1.5s ease-out;
+        }
+        .hero p { 
+            font-size: 1.2rem; letter-spacing: 5px; text-transform: uppercase; margin-top: 10px;
+            animation: fadeInUp 2s ease-out;
+        }
 
-        /* Accommodation Section */
-        .section-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--gold); text-align: center; margin: 60px 0 40px; }
-        .pricing-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 0 20px; }
-        .price-card { background: var(--card); border: 1px solid #222; border-radius: 0px; width: 380px; overflow: hidden; transition: 0.5s; }
-        .price-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .price-card img { width: 100%; height: 250px; object-fit: cover; opacity: 0.8; transition: 0.5s; }
-        .price-card:hover img { opacity: 1; }
-        .price-content { padding: 30px; border-top: 2px solid var(--gold); }
-        .price-tag { font-size: 1.3rem; color: var(--gold); font-weight: 600; margin-top: 10px; display: block; }
+        /* 3. Luxury Features ( जान डालने के लिए ) */
+        .features {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; padding: 100px 50px; background: var(--primary);
+        }
+        .feat-card {
+            padding: 40px; border: 1px solid rgba(226, 177, 122, 0.1); text-align: center;
+            transition: 0.5s; cursor: pointer;
+        }
+        .feat-card:hover { background: rgba(226, 177, 122, 0.05); border-color: var(--accent); transform: translateY(-10px); }
+        .feat-card h3 { font-family: 'Cinzel', serif; color: var(--accent); }
 
-        /* Professional Booking Form */
-        .booking-section { padding: 100px 20px; background: #000; }
-        .booking-form { 
-            max-width: 800px; margin: 0 auto; background: var(--card); 
-            padding: 50px; border-top: 4px solid var(--gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        /* 4. Glassmorphism Booking Form */
+        .booking-section { padding: 100px 20px; position: relative; }
+        .booking-card {
+            max-width: 900px; margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px); border-radius: 40px;
+            padding: 60px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .form-group { text-align: left; }
-        label { display: block; color: var(--gold); font-size: 0.75rem; font-weight: 600; margin-bottom: 8px; letter-spacing: 1.5px; text-transform: uppercase; }
-        input, select { 
-            width: 100%; padding: 15px; background: #111; border: 1px solid #333; 
-            color: white; border-radius: 0; font-family: inherit; transition: 0.3s;
-        }
-        input:focus { border-color: var(--gold); outline: none; }
-        .book-btn { 
-            width: 100%; padding: 20px; background: var(--gold); color: black; 
-            border: none; font-weight: bold; cursor: pointer; 
-            text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; transition: 0.4s;
-        }
-        .book-btn:hover { background: #b08d4a; letter-spacing: 4px; }
 
-        @media (max-width: 768px) { 
-            .hero h1 { font-size: 2.8rem; }
-            .form-row { grid-template-columns: 1fr; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 0.7rem; color: var(--accent); margin-bottom: 10px; letter-spacing: 2px; text-transform: uppercase; }
+        input, select {
+            background: rgba(0,0,0,0.3); border: 1px solid #334155;
+            color: #fff; padding: 15px; border-radius: 10px; font-size: 1rem; outline: none; transition: 0.3s;
         }
+        input:focus { border-color: var(--accent); }
+
+        .btn-confirm {
+            grid-column: 1 / -1; background: var(--accent); color: var(--primary);
+            padding: 20px; border: none; border-radius: 10px; font-weight: bold;
+            font-size: 1.1rem; letter-spacing: 3px; cursor: pointer; text-transform: uppercase;
+            margin-top: 20px; transition: 0.4s;
+        }
+        .btn-confirm:hover { background: #fff; transform: scale(1.02); box-shadow: 0 0 20px rgba(226, 177, 122, 0.4); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer { text-align: center; padding: 50px; border-top: 1px solid rgba(226, 177, 122, 0.1); color: #64748b; font-size: 0.8rem; }
+
     </style>
 </head>
 <body>
 
-    <header class="hero">
-        <h1>GEETAI VILLA</h1>
-        <p>EXPERIENCE THE ART OF LUXURY LIVING</p>
-    </header>
+    <nav>
+        <div class="logo">GEETAI VILLA</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#book">Reserve</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
 
-    <section>
-        <h2 class="section-title">Luxury Suites</h2>
-        <div class="pricing-container">
-            <div class="price-card">
-                <img src="/static/villa1.jpg" alt="3BHK Stay">
-                <div class="price-content">
-                    <h3 style="letter-spacing: 1px;">3 BHK BOUTIQUE VILLA</h3>
-                    <p style="color: #888; font-size: 0.9rem;">Private Garden | AC Bedrooms | Mountain View</p>
-                    <span class="price-tag">₹12,000 / Night</span>
-                </div>
-            </div>
-            <div class="price-card" style="border: 1px solid var(--gold);">
-                <img src="/static/villa2.jpg" alt="4BHK Stay">
-                <div class="price-content">
-                    <h3 style="letter-spacing: 1px;">4 BHK ROYAL POOL VILLA</h3>
-                    <p style="color: #888; font-size: 0.9rem;">Private Pool | Music System | BBQ Setup</p>
-                    <span class="price-tag">₹18,000 / Night</span>
-                </div>
-            </div>
+    <section class="hero">
+        <p>Welcome To</p>
+        <h1>Geetai Villa</h1>
+        <p>Lonavala's Most Exclusive Estate</p>
+    </section>
+
+    <section class="features">
+        <div class="feat-card">
+            <h3>2 BHK Classic</h3>
+            <p>Perfect for couples & small families.</p>
+        </div>
+        <div class="feat-card" style="border-color: var(--accent);">
+            <h3>3 BHK Classic</h3>
+            <p>Private pool, BBQ & infinite .</p>
+        </div>
+        <div class="feat-card">
+            <h3>4 BHK Luxury</h3>
+            <p>Elegant design with a luxury.</p>
         </div>
     </section>
 
-    <section id="booking" class="booking-section">
-        <div class="booking-form">
-            <h2 style="font-family: 'Playfair Display'; font-size: 2.2rem; color: #fff; margin-bottom: 40px; text-align: center;">Make a Reservation</h2>
-            <form id="vForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Guest Name</label>
-                        <input type="text" id="name" placeholder="E.g. John Doe" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Villa Type</label>
-                        <select id="vType">
-                            <option value="3 BHK Boutique">3 BHK Boutique Villa</option>
-                            <option value="4 BHK Royal">4 BHK Royal Pool Villa</option>
-                        </select>
-                    </div>
+    <section id="book" class="booking-section">
+        <div class="booking-card">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--accent); text-align: center; margin-bottom: 40px; font-size: 2.5rem;">Plan Your Escape</h2>
+            <form class="form-grid">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="Name">
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Check-In Date</label>
-                        <input type="date" id="checkin" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Check-Out Date</label>
-                        <input type="date" id="checkout" required>
-                    </div>
+                <div class="input-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="mobile" placeholder="+91">
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Number of Guests</label>
-                        <input type="number" id="guests" placeholder="Max 15 Guests" required>
-                    </div>
-                    <div class="form-group" style="display: flex; align-items: flex-end;">
-                        <button type="button" class="book-btn" onclick="sendWhatsapp()">Request Invitation</button>
-                    </div>
+                <div class="input-group">
+                    <label>Stay Preference</label>
+                    <select id="villa">
+                        <option value="2 BHK">2 BHK Boutique</option>
+                        <option value="3 BHK">3 BHK Premium</option>
+                        <option value="4 BHK">4 BHK Royal (Pool)</option>
+                    </select>
                 </div>
+                <div class="input-group">
+                    <label>Check-In</label>
+                    <input type="date" id="checkin">
+                </div>
+                <div class="input-group">
+                    <label>Check-Out</label>
+                    <input type="date" id="checkout">
+                </div>
+                <div class="input-group">
+                    <label>Guests</label>
+                    <input type="number" id="guests" placeholder="No. of Guests">
+                </div>
+                <button type="button" class="btn-confirm" onclick="sendToWhatsapp()">Confirm Availability</button>
             </form>
         </div>
     </section>
 
-    <footer style="padding: 60px; text-align: center; color: #444; background: #000; letter-spacing: 2px;">
-        <p>© 2026 GEETAI VILLA LONAVALA | PRIVATE RESIDENTIAL RENTAL</p>
+    <footer>
+        © 2026 GEETAI VILLA | DESIGNED FOR THE ELITE
     </footer>
 
     <script>
-        function sendWhatsapp() {
-            let name = document.getElementById('name').value;
-            let checkin = document.getElementById('checkin').value;
-            let checkout = document.getElementById('checkout').value;
-            let guests = document.getElementById('guests').value;
-            let vType = document.getElementById('vType').value;
-            let phone = "918830024994"; // अपना नंबर यहाँ डालें
+        function sendToWhatsapp() {
+            const phone = "918830024994"; // अपना नंबर यहाँ डालें
+            const name = document.getElementById('name').value;
+            const villa = document.getElementById('villa').value;
+            const ci = document.getElementById('checkin').value;
+            const co = document.getElementById('checkout').value;
 
-            if(!name || !checkin || !checkout || !guests) {
-                alert("Please complete all reservation details.");
-                return;
-            }
+            if(!name || !ci) { alert("Please enter your name and dates."); return; }
 
-            let msg = `*Luxury Reservation Inquiry*%0A` +
-                      `--------------------------%0A` +
-                      `*Guest Name:* ${name}%0A` +
-                      `*Villa Type:* ${vType}%0A` +
-                      `*Check-In:* ${checkin}%0A` +
-                      `*Check-Out:* ${checkout}%0A` +
-                      `*Total Guests:* ${guests}%0A` +
-                      `--------------------------%0A` +
-                      `_Sent via Geetai Villa Official Site_`;
-
+            const msg = `*RESORT INQUIRY*%0A*Name:* ${name}%0A*Villa:* ${villa}%0A*Stay:* ${ci} to ${co}`;
             window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
         }
     </script>
