@@ -2,12 +2,12 @@ import os
 import json
 import gspread
 import datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 
-# 1. Google Sheets Connection
+# Google Sheets Connection Function
 def get_gspread_client():
     creds_json = os.environ.get('GOOGLE_CREDS')
     if not creds_json:
@@ -21,22 +21,20 @@ def get_gspread_client():
         print(f"Auth Error: {e}")
         return None
 
-# 2. Home Page (All Villas)
+# 1. Home Page - विला की लिस्ट दिखाएगा
 @app.route('/')
 def index():
     try:
         client = get_gspread_client()
-        if not client:
-            return "Auth Error: Check Render Settings."
-        
+        if not client: return "Auth Error: Check Render Settings."
         spreadsheet = client.open("Geetai_Villa_Admin")
-        sheet = spreadsheet.get_worksheet(0)
+        sheet = spreadsheet.get_worksheet(0) # पहला टैब
         villas = sheet.get_all_records()
         return render_template('index.html', villas=villas)
     except Exception as e:
-        return f"Error loading index: {str(e)}"
+        return f"Error: {str(e)}"
 
-# 3. Villa Details Page (The missing piece)
+# 2. Villa Details Page - विला की पूरी जानकारी
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
     try:
@@ -44,46 +42,40 @@ def villa_details(villa_id):
         spreadsheet = client.open("Geetai_Villa_Admin")
         sheet = spreadsheet.get_worksheet(0)
         villas = sheet.get_all_records()
-        
-        # शीट में Villa_ID कॉलम के साथ मैच करना
         villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
-        
         if villa:
             return render_template('villa_details.html', villa=villa)
-        return "<h1>Villa Not Found</h1><p>Please check the ID in Google Sheet.</p>", 404
+        return "Villa Not Found", 404
     except Exception as e:
         return f"Error: {str(e)}"
 
-# 4. Inquiry Form
+# 3. Inquiry Form - शीट में सेव करेगा और WhatsApp पर भेजेगा
 @app.route('/submit_inquiry', methods=['POST'])
 def submit_inquiry():
     try:
-        # फॉर्म से डेटा लेना
         name = request.form.get('name')
         phone = request.form.get('phone')
         message = request.form.get('message')
-        villa_name = request.form.get('villa_name', 'General Inquiry')
+        villa_name = request.form.get('villa_name', 'General')
         today = str(datetime.date.today())
 
-        # 1. Google Sheet में डेटा सेव करना
+        # Google Sheet (Inquiries टैब) में डेटा डालना
         client = get_gspread_client()
-        # पक्का करें कि आपकी शीट में 'Inquiries' नाम का टैब (Sheet) है
-        inquiry_sheet = client.open("Geetai_Villa_Admin").worksheet("Inquiries")
+        spreadsheet = client.open("Geetai_Villa_Admin")
+        inquiry_sheet = spreadsheet.worksheet("Inquiries") # पक्का करें ये टैब बना हुआ है
         inquiry_sheet.append_row([today, name, phone, villa_name, message])
 
-        # 2. WhatsApp का मैसेज तैयार करना
-        whatsapp_msg = f"Hello, I am interested in {villa_name}. Name: {name}, Message: {message}"
-        # अपना WhatsApp नंबर यहाँ डालें (बिना + के)
-        whatsapp_url = f"https://wa.me/918830024994?text={whatsapp_msg}"
+        # WhatsApp पर भेजने के लिए लिंक बनाना
+        # यहाँ अपना नंबर डालें (91 के साथ)
+        my_number = "91XXXXXXXXXX" 
+        text = f"Hello! New Inquiry for {villa_name}.\nName: {name}\nPhone: {phone}\nMessage: {message}"
+        whatsapp_url = f"https://wa.me/{my_number}?text={text.replace(' ', '%20')}"
 
-        # 3. डेटा सेव होने के बाद WhatsApp पर भेज देना
-        return f"<script>window.location.href='{whatsapp_url}';</script>"
-
+        return redirect(whatsapp_url)
     except Exception as e:
-        return f"Error: {str(e)}"
-
+        return f"Form Error: {str(e)}. Did you create the 'Inquiries' tab in your sheet?"
 
 if __name__ == "__main__":
-    # रेंडर के लिए पोर्ट सेटिंग
-    port
-           
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+    
