@@ -53,28 +53,32 @@ def villa_details(villa_id):
 @app.route('/submit_inquiry', methods=['POST'])
 def submit_inquiry():
     try:
-        name = request.form.get('name')
-        phone = request.form.get('phone')
-        message = request.form.get('message')
-        villa_name = request.form.get('villa_name', 'General')
+        name = request.form.get('name', '').strip()
+        phone = request.form.get('phone', '').strip()
+        message = request.form.get('message', '').strip()
+        villa_name = request.form.get('villa_name', 'General').strip()
         today = str(datetime.date.today())
 
-        # Google Sheet (Inquiries टैब) में डेटा डालना
+        # 1. Sheet में डेटा डालना
         client = get_gspread_client()
         spreadsheet = client.open("Geetai_Villa_Admin")
-        inquiry_sheet = spreadsheet.worksheet("Inquiries") # पक्का करें ये टैब बना हुआ है
+        inquiry_sheet = spreadsheet.worksheet("Inquiries")
         inquiry_sheet.append_row([today, name, phone, villa_name, message])
 
-        # WhatsApp पर भेजने के लिए लिंक बनाना
-        # यहाँ अपना नंबर डालें (91 के साथ)
-        my_number = "918830024994" 
-        text = f"Hello! New Inquiry for {villa_name}.\nName: {name}\nPhone: {phone}\nMessage: {message}"
-        whatsapp_url = f"https://wa.me/{my_number}?text={text.replace(' ', '%20')}"
+        # 2. WhatsApp URL (इसे ध्यान से बदलें)
+        my_num = "918830024994" # आपका नंबर
+        
+        # मैसेज में से newline (\n) हटाकर उसे URL के लिए साफ करना
+        raw_text = f"New Inquiry! Villa: {villa_name}, Name: {name}, Phone: {phone}, Msg: {message}"
+        clean_text = raw_text.replace('\n', ' ').replace('\r', ' ')
+        
+        from urllib.parse import quote
+        whatsapp_url = f"https://wa.me/{my_num}?text={quote(clean_text)}"
 
         return redirect(whatsapp_url)
     except Exception as e:
-        return f"Form Error: {str(e)}. Did you create the 'Inquiries' tab in your sheet?"
-
+        # अगर अभी भी एरर आए तो यहाँ साफ़ दिखेगा
+        return f"Form Error: {str(e)}", 400
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
