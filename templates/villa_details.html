@@ -95,22 +95,30 @@
             <div class="feature-item">👨‍🍳 Kitchen Available</div>
         </div>
 
-        <div class="booking-card">
+                <div class="booking-card">
             <div class="status-badge" style="background: {{ '#1b5e20' if villa.Status == 'Available' else '#b71c1c' }}">
                 {{ villa.Status }}
             </div>
             
             {% if villa.Status == 'Available' %}
-                <p>इस विला को बुक करने के लिए नीचे दिए गए बटन पर क्लिक करें:</p>
-                <a href="https://wa.me/918830024994?text=Hi, I want to book {{ villa.Name }} (ID: {{ villa.Villa_ID }})" class="wa-button">
-                    Book Now via WhatsApp
-                </a>
+                <h3 style="color: var(--gold);">Book Your Stay</h3>
+                <p>अपनी जानकारी भरें, हम आपको WhatsApp पर संपर्क करेंगे:</p>
+                
+                <form action="/submit_inquiry" method="POST" style="display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: auto;">
+                    <input type="text" name="name" required placeholder="अपना नाम लिखें" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff;">
+                    
+                    <input type="text" name="phone" required placeholder="मोबाइल नंबर" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff;">
+                    
+                    <textarea name="message" placeholder="आपकी विशेष ज़रूरत (जैसे: No. of Guests)" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; height: 80px;"></textarea>
+                    
+                    <input type="hidden" name="villa_name" value="{{ villa.Name }}">
+                    
+                    <button type="submit" class="wa-button" style="border: none; cursor: pointer;">
+                        Submit & Book on WhatsApp
+                    </button>
+                </form>
             {% else %}
                 <p style="color: #ff4444; font-size: 1.2rem; font-weight: bold;">माफ़ करें, यह विला अभी बुक हो चुका है।</p>
                 <a href="/" style="color: var(--gold); text-decoration: none;">Explore Other Villas →</a>
             {% endif %}
         </div>
-    </div>
-
-</body>
-</html>
