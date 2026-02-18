@@ -191,5 +191,18 @@
             }
         }
     </script>
+    <section id="contact" style="background: #111; padding: 60px 5%; margin-top: 50px; border-top: 1px solid var(--gold);">
+    <div style="max-width: 600px; margin: auto; text-align: center;">
+        <h2 style="color: var(--gold); font-family: 'Cinzel Decorative';">Quick Inquiry</h2>
+        <p>अपना नाम और नंबर छोड़ें, हम आपको कॉल करेंगे।</p>
+        
+        <form action="/submit_inquiry" method="POST" style="display: flex; flex-direction: column; gap: 15px; margin-top: 30px;">
+            <input type="text" name="name" placeholder="Your Name" required style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+            <input type="tel" name="phone" placeholder="Phone Number" required style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+            <textarea name="message" placeholder="Which date are you looking for?" rows="4" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;"></textarea>
+            <button type="submit" style="background: var(--gold); color: #000; padding: 15px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer;">Submit Request</button>
+        </form>
+    </div>
+</section>
 </body>
 </html>
