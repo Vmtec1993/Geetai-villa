@@ -80,6 +80,8 @@ def submit_inquiry():
         return f"Form Error: {str(e)}"
 
 if __name__ == "__main__":
+    # रेंडर के लिए पोर्ट सेट करना
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
     
