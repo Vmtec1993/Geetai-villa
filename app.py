@@ -24,15 +24,21 @@ def index():
     try:
         client = get_gspread_client()
         if not client:
-            return "Auth Error: Check Render Environment Variables."
+            return "Connection Error: Please check Render Environment Variables."
         
-        # शीट का नाम पक्का करें
+        # शीट को नाम से खोलना
         spreadsheet = client.open("Geetai_Villa_Admin")
-        sheet = spreadsheet.get_worksheet(0)
+        # पक्का करें कि डेटा पहले टैब में है
+        sheet = spreadsheet.get_worksheet(0) 
         villas = sheet.get_all_records()
+        
+        if not villas:
+            return "Error: No data found in the Google Sheet. Please add some villas."
+            
         return render_template('index.html', villas=villas)
     except Exception as e:
-        return f"Error: {str(e)}"
+        # अगर अभी भी दिक्कत आए, तो यह साफ़ बताएगा कि क्या कमी है
+        return f"Database Error: {str(e)}. Make sure the sheet is shared with the service account email."
 
 # यह हिस्सा पोर्ट की समस्या को ठीक करेगा
 if __name__ == "__main__":
