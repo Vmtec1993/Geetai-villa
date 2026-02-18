@@ -67,7 +67,7 @@ def submit_inquiry():
 
         # WhatsApp पर भेजने के लिए लिंक बनाना
         # यहाँ अपना नंबर डालें (91 के साथ)
-        my_number = "91XXXXXXXXXX" 
+        my_number = "918830024994" 
         text = f"Hello! New Inquiry for {villa_name}.\nName: {name}\nPhone: {phone}\nMessage: {message}"
         whatsapp_url = f"https://wa.me/{my_number}?text={text.replace(' ', '%20')}"
 
