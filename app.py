@@ -7,6 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 
+# 1. Google Sheets Connection
 def get_gspread_client():
     creds_json = os.environ.get('GOOGLE_CREDS')
     if not creds_json:
@@ -17,31 +18,60 @@ def get_gspread_client():
         creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         return gspread.authorize(creds)
     except Exception as e:
+        print(f"Auth Error: {e}")
         return None
 
+# 2. Home Page (All Villas)
 @app.route('/')
 def index():
     try:
         client = get_gspread_client()
         if not client:
-            return "Connection Error: Please check Render Environment Variables."
+            return "Auth Error: Check Render Settings."
         
-        # शीट को नाम से खोलना
         spreadsheet = client.open("Geetai_Villa_Admin")
-        # पक्का करें कि डेटा पहले टैब में है
-        sheet = spreadsheet.get_worksheet(0) 
+        sheet = spreadsheet.get_worksheet(0)
         villas = sheet.get_all_records()
-        
-        if not villas:
-            return "Error: No data found in the Google Sheet. Please add some villas."
-            
         return render_template('index.html', villas=villas)
     except Exception as e:
-        # अगर अभी भी दिक्कत आए, तो यह साफ़ बताएगा कि क्या कमी है
-        return f"Database Error: {str(e)}. Make sure the sheet is shared with the service account email."
+        return f"Error loading index: {str(e)}"
 
-# यह हिस्सा पोर्ट की समस्या को ठीक करेगा
+# 3. Villa Details Page (The missing piece)
+@app.route('/villa/<villa_id>')
+def villa_details(villa_id):
+    try:
+        client = get_gspread_client()
+        spreadsheet = client.open("Geetai_Villa_Admin")
+        sheet = spreadsheet.get_worksheet(0)
+        villas = sheet.get_all_records()
+        
+        # शीट में Villa_ID कॉलम के साथ मैच करना
+        villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
+        
+        if villa:
+            return render_template('villa_details.html', villa=villa)
+        return "<h1>Villa Not Found</h1><p>Please check the ID in Google Sheet.</p>", 404
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# 4. Inquiry Form
+@app.route('/submit_inquiry', methods=['POST'])
+def submit_inquiry():
+    try:
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        message = request.form.get('message')
+        today = str(datetime.date.today())
+
+        client = get_gspread_client()
+        inquiry_sheet = client.open("Geetai_Villa_Admin").worksheet("Inquiries")
+        inquiry_sheet.append_row([name, phone, message, today])
+
+        return "<h1>Success!</h1><script>setTimeout(function(){ window.location.href='/'; }, 2000);</script>"
+    except Exception as e:
+        return f"Form Error: {str(e)}"
+
 if __name__ == "__main__":
-    # रेंडर को इस खास पोर्ट की ज़रूरत होती है
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port) 
+    # रेंडर के लिए पोर्ट सेटिंग
+    port
+           
