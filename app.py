@@ -29,16 +29,23 @@ def get_gspread_client():
 
 # 2. Main Page Route (यह गायब था, इसलिए Not Found आ रहा था)
 @app.route('/')
+@app.route('/')
 def index():
     try:
         client = get_gspread_client()
         if not client:
-            return "Error: Database connection failed."
-        sheet = client.open("Geetai_Villa_Admin").sheet1
+            return "Error: Database connection failed. Please check Render Environment Variables."
+        
+        # यहाँ अपनी गूगल शीट का सटीक नाम लिखें
+        sheet = client.open("Geetai_Villa_Admin").sheet1 
         villas = sheet.get_all_records()
+        
+        # अगर डेटा मिल गया तो पेज रेंडर करेगा
         return render_template('index.html', villas=villas)
     except Exception as e:
+        # यह लाइन हमें बताएगी कि असली गड़बड़ क्या है (जैसे शीट का नाम गलत होना)
         return f"Error loading index: {str(e)}"
+
 
 # 3. Villa Details Route
 @app.route('/villa/<villa_id>')
