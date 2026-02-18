@@ -2,7 +2,8 @@ import os
 from flask import Flask, render_template
 
 app = Flask(__name__)
-
+app.debug = True
+app = app 
 # पक्का करें कि पूरे कोड में @app.route('/') सिर्फ एक ही बार हो
 @app.route('/')
 def home():  # हमने नाम बदलकर 'home' कर दिया है ताकि कोई टकराव न हो
