@@ -3,157 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Geetai Villa Lonavala | Luxury 4BHK Private Pool Villa</title>
-    <meta name="description" content="Book Geetai Villa in Lonavala. Luxury private pool villa near Tiger Point. Fully equipped kitchen, BBQ, and AC. Best rates for family stays.">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>Geetai Villa | Luxury Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --glass: rgba(255, 255, 255, 0.05); }
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-
-        /* Progress Bar */
-        .progress-container { position: fixed; top: 0; z-index: 2000; width: 100%; height: 4px; background: transparent; }
-        .progress-bar { height: 4px; background: var(--gold); width: 0%; box-shadow: 0 0 10px var(--gold); }
-
-        /* Marketing Promo Bar */
-        .promo-banner { background: var(--gold); color: #000; text-align: center; padding: 10px; font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; position: sticky; top: 0; z-index: 1500; }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.7), var(--dark)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070') center/cover no-repeat;
-            text-align: center;
-        }
-        .hero h1 { font-family: 'Cinzel Decorative'; font-size: clamp(3rem, 10vw, 6rem); color: var(--gold); margin: 0; }
-
-        /* Reveal Animation on Scroll */
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1s all ease; padding: 80px 8%; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Amenities Grid */
-        .amenity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 30px; margin-top: 50px; }
-        .amenity-item { padding: 25px; background: var(--glass); border-radius: 20px; border: 1px solid rgba(212,175,55,0.1); text-align: center; }
-        .amenity-item i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
-        .amenity-item p { font-size: 0.8rem; letter-spacing: 1px; font-weight: 500; text-transform: uppercase; }
-
-        /* House Rules */
-        .rules-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left; }
-        .rule-item { padding: 15px; border-left: 2px solid var(--gold); background: rgba(255,255,255,0.02); font-size: 0.9rem; }
-
-        /* Animated WhatsApp Button */
-        .whatsapp-float {
-            position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white;
-            width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            z-index: 1000; text-decoration: none;
-            animation: moveWhatsapp 3s infinite ease-in-out;
-        }
-        @keyframes moveWhatsapp {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(10deg); }
-            50% { transform: translateY(0) rotate(-10deg); }
-            75% { transform: translateY(-10px) rotate(5deg); }
-        }
-
-        /* Booking Card */
-        .booking-box { background: var(--glass); backdrop-filter: blur(20px); padding: 50px; border-radius: 40px; border: 1px solid rgba(212, 175, 55, 0.2); }
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; }
-        input, select { background: #000; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; outline: none; }
-        .btn-gold { width: 100%; background: var(--gold); color: #000; padding: 20px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; }
-
-        footer { text-align: center; padding: 50px; opacity: 0.3; font-size: 0.8rem; }
+        :root { --gold: #D4AF37; --dark: #0a0a0a; }
+        body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; }
+        header { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.7), var(--dark)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200') center/cover; }
+        h1 { font-family: 'Cinzel Decorative'; font-size: 3rem; color: var(--gold); margin: 0; }
+        
+        .villa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .villa-card { background: #1a1a1a; border-radius: 15px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
+        .villa-card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .villa-card img { width: 100%; height: 250px; object-fit: cover; }
+        
+        .card-body { padding: 20px; }
+        .status-tag { padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; float: right; }
+        .available { background: #1b5e20; color: #fff; }
+        .booked { background: #b71c1c; color: #fff; }
+        
+        .price { color: var(--gold); font-size: 1.5rem; font-weight: bold; display: block; margin: 10px 0; }
+        .btn-view { display: block; text-align: center; background: var(--gold); color: #000; padding: 12px; text-decoration: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
-    
-    <div class="promo-banner">FLAT 10% OFF ON DIRECT WEBSITE BOOKINGS!</div>
-
-    <a href="https://wa.me/918830024994" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <header class="hero">
+    <header>
         <h1>GEETAI VILLA</h1>
-        <p style="letter-spacing: 8px; color: var(--gold);">THE ROYAL ESTATE</p>
+        <p>Premium Luxury Stays in Lonavala</p>
     </header>
 
-    <section class="reveal">
-        <h2 style="font-family: 'Cinzel Decorative'; color: var(--gold); text-align: center; font-size: 2.5rem;">Luxury Amenities</h2>
-        <div class="amenity-grid">
-            <div class="amenity-item"><i class="fas fa-swimming-pool"></i><p>Private Pool</p></div>
-            <div class="amenity-item"><i class="fas fa-utensils"></i><p>Modern Kitchen</p></div>
-            <div class="amenity-item"><i class="fas fa-fire-alt"></i><p>BBQ Station</p></div>
-            <div class="amenity-item"><i class="fas fa-wifi"></i><p>Free WiFi</p></div>
-            <div class="amenity-item"><i class="fas fa-snowflake"></i><p>Full AC</p></div>
-            <div class="amenity-item"><i class="fas fa-video"></i><p>CCTV Secure</p></div>
-        </div>
-    </section>
-
-    <section class="reveal" style="background: #0a0a0a;">
-        <h2 style="font-family: 'Cinzel Decorative'; color: var(--gold); text-align: center;">House Rules</h2>
-        <div class="rules-container">
-            <div class="rule-item"><strong>Check-In:</strong> 1:00 PM | <strong>Check-Out:</strong> 11:00 AM</div>
-            <div class="rule-item">Loud music is restricted after 10:00 PM.</div>
-            <div class="rule-item">Smoking is only allowed in outdoor garden areas.</div>
-            <div class="rule-item">Carry a valid Govt. Photo ID for all guests.</div>
-        </div>
-    </section>
-
-    <section class="reveal">
-        <div class="booking-box">
-            <h2 style="font-family: 'Cinzel Decorative'; text-align: center; color: var(--gold);">Reservations</h2>
-            <div class="input-grid">
-                <input type="text" id="name" placeholder="Guest Name">
-                <input type="tel" id="mobile" placeholder="WhatsApp Number">
-                <select id="villa">
-                    <option>2 BHK Boutique Villa</option>
-                    <option>3 BHK Premium Villa</option>
-                    <option>4 BHK Royal Pool Villa</option>
-                </select>
-                <input type="date" id="checkin">
-                <input type="date" id="checkout">
-                <input type="number" id="guests" placeholder="Total Guests">
+    <div class="villa-grid">
+        {% for villa in villas %}
+        <div class="villa-card">
+            <img src="{{ villa.Image_Main }}" alt="{{ villa.Name }}">
+            <div class="card-body">
+                <span class="status-tag {{ 'available' if villa.Status == 'Available' else 'booked' }}">
+                    {{ villa.Status }}
+                </span>
+                <h2 style="margin: 0; font-size: 1.4rem;">{{ villa.Name }}</h2>
+                <p style="opacity: 0.7;">{{ villa.BHK }} Villa</p>
+                <span class="price">₹{{ villa.Price }} <small style="font-size: 0.8rem; font-weight: 300;">/night</small></span>
+                <a href="/villa/{{ villa.Villa_ID }}" class="btn-view">View Details & Gallery</a>
             </div>
-            <button class="btn-gold" onclick="sendToWhatsApp()">Apply Discount & Book</button>
         </div>
-    </section>
-
-    <footer>
-        &copy; 2026 GEETAI VILLA | LONAVALA, MAHARASHTRA
-    </footer>
-
-    <script>
-        // Progress Bar & Scroll Reveal Logic
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("myBar").style.width = scrolled + "%";
-
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) { reveals[i].classList.add("active"); }
-            }
-        };
-
-        function sendToWhatsApp() {
-            const phone = "918830024994";
-            const name = document.getElementById('name').value;
-            const villa = document.getElementById('villa').value;
-            if(!name) { alert("Please enter your name."); return; }
-            const msg = `*NEW BOOKING REQUEST*%0A*Name:* ${name}%0A*Villa:* ${villa}%0A*Direct Booking Discount Applied*`;
-            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-        }
-        // Trigger scroll for initial items
-        window.dispatchEvent(new Event('scroll'));
-    </script>
+        {% endfor %}
+    </div>
 </body>
 </html>
