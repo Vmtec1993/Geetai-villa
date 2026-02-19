@@ -1,21 +1,54 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow p-4 border-0" style="border-radius: 15px;">
-            <h2 class="text-center mb-4 fw-bold">Book Your Stay</h2>
-            <form action="/submit_enquiry" method="POST">
-                <input type="hidden" name="villa_id" value="{{ villa_id }}">
-                <div class="mb-3"><input type="text" name="name" class="form-control" placeholder="Full Name" required></div>
-                <div class="mb-3"><input type="tel" name="phone" class="form-control" placeholder="Phone Number" required></div>
-                <div class="row">
-                    <div class="col-md-6 mb-3"><label class="small">Check-in</label><input type="date" name="check_in" class="form-control" required></div>
-                    <div class="col-md-6 mb-3"><label class="small">Check-out</label><input type="date" name="check_out" class="form-control" required></div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 p-4" style="border-radius: 20px;">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-dark">Plan Your Stay</h2>
+                    <p class="text-muted">Fill in the details to get a quote</p>
                 </div>
-                <div class="mb-3"><input type="number" name="guests" class="form-control" placeholder="Total Guests" required></div>
-                <div class="mb-3"><textarea name="message" class="form-control" rows="3" placeholder="Any Special Requests?"></textarea></div>
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-pill">SEND ENQUIRY</button>
-            </form>
+                
+                <form action="/submit_enquiry" method="POST">
+                    <input type="hidden" name="villa_id" value="{{ villa_id }}">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Full Name</label>
+                        <input type="text" name="name" class="form-control rounded-pill px-3" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        <input type="tel" name="phone" class="form-control rounded-pill px-3" placeholder="WhatsApp Number" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-semibold">Check-in</label>
+                            <input type="date" name="check_in" class="form-control rounded-pill px-3" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-semibold">Check-out</label>
+                            <input type="date" name="check_out" class="form-control rounded-pill px-3" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Total Guests</label>
+                        <input type="number" name="guests" class="form-control rounded-pill px-3" placeholder="e.g. 8" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Special Requests</label>
+                        <textarea name="message" class="form-control" rows="3" style="border-radius: 15px;" placeholder="Any specific requirements?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">
+                        SEND ENQUIRY
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
