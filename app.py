@@ -9,30 +9,33 @@ app = Flask(__name__)
 def get_sheets_data():
     try:
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-        
-        # Render के Environment Variable (GOOGLE_CREDS) से डेटा उठाना
         creds_json = os.environ.get("GOOGLE_CREDS")
         
-        if creds_json:
-            # JSON स्ट्रिंग को डिक्शनरी में बदलना
-            info = json.loads(creds_json)
-            
-            # Private key में अक्सर नई लाइन (\n) की समस्या होती है, उसे ठीक करना
-            if "private_key" in info:
-                info["private_key"] = info["private_key"].replace("\\n", "\n")
-            
-            creds = Credentials.from_service_account_info(info, scopes=scopes)
-            client = gspread.authorize(creds)
-            
-            # अपनी गूगल शीट का नाम चेक करें (Geetai_Villa_Data)
-            spreadsheet = client.open("Geetai_Villa_Data")
-            sheet = spreadsheet.get_worksheet(0)
-            return sheet.get_all_records()
-        else:
-            print("CRITICAL: GOOGLE_CREDS variable not found in Render settings")
+        if not creds_json:
+            print("DEBUG: GOOGLE_CREDS is missing in Environment Variables")
+            return []
+
+        # JSON क्लीनिंग: कभी-कभी पेस्ट करते समय शुरुआत/अंत में फालतू कोट्स आ जाते हैं
+        creds_json = creds_json.strip()
+        if creds_json.startswith("'") and creds_json.endswith("'"):
+            creds_json = creds_json[1:-1]
+        
+        info = json.loads(creds_json)
+        
+        # Private key की नई लाइन फिक्स करना
+        if "private_key" in info:
+            info["private_key"] = info["private_key"].replace("\\n", "\n")
+        
+        creds = Credentials.from_service_account_info(info, scopes=scopes)
+        client = gspread.authorize(creds)
+        
+        spreadsheet = client.open("Geetai_Villa_Data")
+        sheet = spreadsheet.get_worksheet(0)
+        return sheet.get_all_records()
+
     except Exception as e:
-        print(f"SHEET CONNECTION ERROR: {str(e)}")
-    return []
+        print(f"FINAL DEBUG ERROR: {str(e)}")
+        return []
 
 @app.route('/')
 def index():
@@ -48,3 +51,4 @@ def villa_details(villa_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
