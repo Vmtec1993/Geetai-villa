@@ -3,112 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geetai Villa | Boutique Stays</title>
-    <link rel="icon" type="image/png" https://i.postimg.cc/wv0spzpL/logo.png/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Geetai Villa | Luxury Stays in Lonavala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #102C26; --gold: #C5A059; --bg: #F9F9F7; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: #333; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: #333; overflow-x: hidden; }
 
         /* Navbar */
-        .navbar { display: flex; justify-content: space-between; padding: 15px 20px; background: white; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 600; font-size: 1.1rem; letter-spacing: 1px; }
+        .navbar { display: flex; justify-content: space-between; padding: 15px 20px; background: white; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-weight: 600; font-size: 1.1rem; letter-spacing: 1px; color: var(--primary); text-decoration: none; }
         .menu-icon { font-size: 1.5rem; cursor: pointer; }
 
         /* Hero Section */
-        .hero { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('your-hero-image.jpg'); 
-                height: 450px; background-size: cover; display: flex; flex-direction: column; 
-                justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px; }
-        .hero h1 { font-size: 2.2rem; margin-bottom: 10px; line-height: 1.2; }
+        .hero { 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); 
+            height: 500px; background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; color: white; padding: 0 20px; 
+        }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 15px; line-height: 1.2; }
 
-        /* Search Box */
-        .search-box { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 20px; 
-                      border-radius: 20px; width: 90%; max-width: 400px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.3); }
-        .search-btn { background: var(--primary); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; margin-top: 10px; font-weight: 600; }
+        /* Working Search Box */
+        .search-box { 
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(15px); padding: 20px; 
+            border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .search-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .search-col { text-align: left; border-right: 1px solid rgba(255,255,255,0.3); padding-right: 10px; }
+        .search-col:last-child { border: none; padding-left: 10px; }
+        .search-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; color: #ddd; }
+        .search-input { width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem; outline: none; }
+        .search-input::placeholder { color: #fff; }
 
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; margin-top: -30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .stat-card h3 { margin: 0; font-size: 1.2rem; }
-        .stat-card p { margin: 5px 0 0; font-size: 0.8rem; color: #777; }
+        .search-btn { 
+            background: var(--primary); color: white; width: 100%; padding: 15px; 
+            border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Stats Section */
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; margin-top: -40px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .stat-card h3 { margin: 0; font-size: 1.3rem; color: var(--primary); }
+        .stat-card p { margin: 5px 0 0; font-size: 0.75rem; color: #777; text-transform: uppercase; }
 
         /* Villa Cards */
-        .card-container { padding: 20px; }
-        .villa-card { background: white; border-radius: 20px; overflow: hidden; margin-bottom: 25px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .villa-tag { position: absolute; top: 15px; left: 15px; background: white; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-        .villa-img { width: 100%; height: 250px; object-fit: cover; }
-        .villa-content { padding: 20px; }
-        .villa-title { font-size: 1.2rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        .rating { background: #FEF9E7; color: #F4D03F; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
-        .villa-details { font-size: 0.85rem; color: #666; margin: 10px 0; }
-        .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .featured-title { text-align: center; margin: 40px 0 20px; font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+        .card-container { padding: 0 20px 40px; }
+        .villa-card { background: white; border-radius: 25px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .villa-img-container { position: relative; height: 250px; }
+        .villa-img { width: 100%; height: 100%; object-fit: cover; }
+        .villa-badge { position: absolute; top: 15px; left: 15px; background: white; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        
+        .villa-info { padding: 20px; }
+        .villa-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .villa-name { font-size: 1.2rem; font-weight: 600; color: var(--primary); margin: 0; }
+        .rating-badge { background: #FEF9E7; color: #F4D03F; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        
+        .villa-meta { font-size: 0.85rem; color: #666; margin-bottom: 15px; }
+        .price-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .price-val { font-size: 1.1rem; font-weight: 600; }
+        .view-btn { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
 
-        /* Side Menu (Hidden by default) */
-        .side-menu { position: fixed; right: -100%; top: 0; width: 80%; height: 100%; background: white; z-index: 2000; transition: 0.4s; padding: 40px 20px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
-        .side-menu.active { right: 0; }
-        .close-menu { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; }
+        /* Side Menu */
+        .side-menu { position: fixed; right: -100%; top: 0; width: 80%; height: 100%; background: white; z-index: 2000; transition: 0.4s; padding: 40px 20px; }
+        .side-menu.active { right: 0; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo">GEETAI VILLA</div>
+        <a href="/" class="logo">GEETAI VILLA</a>
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
     </nav>
 
     <div class="side-menu" id="sideMenu">
-        <div class="close-menu" onclick="toggleMenu()">✕</div>
-        <h2 style="margin-bottom: 40px;">MENU</h2>
-        <p><a href="/" style="text-decoration:none; color:black; font-size:1.2rem;">Stays</a></p>
-        <p><a href="#about" style="text-decoration:none; color:black; font-size:1.2rem;">About</a></p>
-        <p><a href="#contact" style="text-decoration:none; color:black; font-size:1.2rem;">Contact</a></p>
+        <div style="text-align: right; font-size: 1.5rem;" onclick="toggleMenu()">✕</div>
+        <h2 style="font-family: 'Playfair Display', serif;">Menu</h2>
+        <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 20px;">
+            <a href="/" style="text-decoration:none; color:black; font-size:1.1rem;">Home</a>
+            <a href="#stays" style="text-decoration:none; color:black; font-size:1.1rem;">All Stays</a>
+            <a href="https://wa.me/918830024994" style="text-decoration:none; color:black; font-size:1.1rem;">WhatsApp Us</a>
+        </div>
     </div>
 
     <section class="hero">
         <h1>Luxury villas & boutique stays in Lonavala</h1>
         <div class="search-box">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
-        <div>
-            <label style="font-size: 0.7rem; color: #eee;">Check-in</label>
-            <input type="date" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.8rem;">
+            <div class="search-row">
+                <div class="search-col">
+                    <span class="search-label">Check-in</span>
+                    <input type="text" onfocus="(this.type='date')" class="search-input" placeholder="Add date">
+                </div>
+                <div class="search-col">
+                    <span class="search-label">Guests</span>
+                    <select class="search-input">
+                        <option>1-5 Guests</option>
+                        <option>6-10 Guests</option>
+                        <option>10+ Guests</option>
+                    </select>
+                </div>
+            </div>
+            <button class="search-btn" onclick="alert('Searching for available dates...')">Search Stays</button>
         </div>
-        <div>
-            <label style="font-size: 0.7rem; color: #eee;">Guests</label>
-            <select style="width: 100%; background: transparent; border: none; color: white; font-size: 0.8rem;">
-                <option style="color: black;">2 Guests</option>
-                <option style="color: black;">5 Guests</option>
-                <option style="color: black;">10+ Guests</option>
-            </select>
-        </div>
-    </div>
-    <button class="search-btn" onclick="alert('Searching for available villas...')">Search Stays</button>
-</div>
     </section>
 
-    <div class="stats-grid">
-        <div class="stat-card"><h3>500+</h3><p>happy guests</p></div>
-        <div class="stat-card"><h3>4.9 / 5</h3><p>average rating</p></div>
+    <div class="stats-container">
+        <div class="stat-card"><h3>500+</h3><p>Happy Guests</p></div>
+        <div class="stat-card"><h3>4.9 / 5</h3><p>Avg Rating</p></div>
     </div>
 
+    <h2 class="featured-title" id="stays">Featured stays</h2>
+
     <div class="card-container">
-        <h2 style="text-align: center; margin: 40px 0 20px;">Featured stays</h2>
-        
         {% for villa in villas %}
         <div class="villa-card">
-            <span class="villa-tag">VILLA</span>
-            <img src="{{ villa.Image_Main }}" class="villa-img">
-            <div class="villa-content">
-                <div class="villa-title">
-    {{ villa.Name }}
-    <span class="rating">★ {{ villa.Rating if villa.Rating else '4.9' }}</span>
-</div>
-
-                <div class="villa-details">
-                    Lonavala, Maharashtra • {{ villa.BHK }}
+            <div class="villa-img-container">
+                <span class="villa-badge">VILLA</span>
+                <img src="{{ villa.Image_Main }}" class="villa-img">
+            </div>
+            <div class="villa-info">
+                <div class="villa-name-row">
+                    <h3 class="villa-name">{{ villa.Name }}</h3>
+                    <span class="rating-badge">★ {{ villa.Rating if villa.Rating else '4.9' }}</span>
                 </div>
-                <div class="price-row">
-                    <div><strong>₹{{ villa.Price }}</strong> <small>/night</small></div>
-                    <a href="/villa/{{ villa.Villa_ID }}" style="color: black; text-decoration: none; font-weight: 600;">View Details →</a>
+                <p class="villa-meta">📍 Lonavala, Maharashtra • {{ villa.BHK }}</p>
+                <div class="price-footer">
+                    <div class="price-val">₹{{ villa.Price }} <small style="font-weight:400; color:#888;">/night</small></div>
+                    <a href="/villa/{{ villa.Villa_ID }}" class="view-btn">View Details →</a>
                 </div>
             </div>
         </div>
@@ -120,41 +143,5 @@
             document.getElementById('sideMenu').classList.toggle('active');
         }
     </script>
-        <section style="padding: 60px 20px; text-align: center; background: #fff;">
-        <h2 style="font-size: 1.8rem; margin-bottom: 10px;">Why stay with Geetai Villa?</h2>
-        <p style="color: #666; font-size: 0.9rem; margin-bottom: 40px;">Lonavala is your home. We focus only on this hill station so your stay feels effortless.</p>
-        
-        <div style="display: grid; gap: 20px;">
-            <div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee;">
-                <div style="font-size: 2rem; margin-bottom: 10px;">⭐</div>
-                <h4 style="margin: 0;">Curated luxury stays</h4>
-                <p style="font-size: 0.8rem; color: #777;">Every home in our experience collection is chosen for comfort, privacy and quality.</p>
-            </div>
-            </div>
-    </section>
-
-    <div style="margin: 20px; padding: 30px; background: linear-gradient(145deg, #e6d5b8, #f9f9f7); border-radius: 20px; text-align: center;">
-        <div style="font-size: 1.5rem; margin-bottom: 10px;">📍</div>
-        <h3 style="margin: 0;">Not sure which stay to pick?</h3>
-        <p style="font-size: 0.8rem; color: #555; margin-bottom: 20px;">Share your dates and group size. We'll suggest 2-3 options that fit you best.</p>
-        <a href="https://wa.me/918830024994" style="display: block; background: #102C26; color: white; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-bottom: 10px;">WhatsApp our team</a>
-        <button style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #102C26; background: transparent; font-weight: 600;">Post an enquiry</button>
-    </div>
-
-    <footer style="background: #102C26; color: white; padding: 50px 20px; margin-top: 50px;">
-        <h2 style="letter-spacing: 2px;">GEETAI VILLA</h2>
-        <p style="font-size: 0.8rem; color: #9ab3ad; line-height: 1.6;">Hand-picked luxury villas and boutique stays in Lonavala. Quality stays for families and groups.</p>
-        
-        <div style="margin-top: 30px;">
-            <h4 style="color: #fff; margin-bottom: 15px;">Quick Links</h4>
-            <p style="font-size: 0.8rem; color: #9ab3ad;">All Stays | About Us | Contact</p>
-        </div>
-
-        <div style="margin-top: 30px; border-top: 1px solid #24413b; pt-20px;">
-            <p style="font-size: 0.8rem;">📍 Lonavala, Maharashtra, India</p>
-            <p style="font-size: 0.8rem;">📞 +91 8830024994</p>
-        </div>
-    </footer>
-    
 </body>
 </html>
