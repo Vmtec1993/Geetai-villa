@@ -9,24 +9,26 @@ app = Flask(__name__)
 def get_sheets_data():
     try:
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-        # credentials.json फाइल को सुरक्षित तरीके से लोड करना
-        if os.path.exists("credentials.json"):
-            with open("credentials.json", "r") as f:
-                info = json.load(f)
-            
-            # Invalid JWT Signature से बचने के लिए private_key को साफ करना
+        
+        # Render ke Environment Variable se data uthana
+        creds_json = os.environ.get("GOOGLE_CREDS")
+        
+        if creds_json:
+            info = json.loads(creds_json)
+            # Private key formatting fix
             if "private_key" in info:
                 info["private_key"] = info["private_key"].replace("\\n", "\n")
             
             creds = Credentials.from_service_account_info(info, scopes=scopes)
             client = gspread.authorize(creds)
             
-            # अपनी गूगल शीट का नाम यहाँ चेक करें
+            # Sheet ka naam check karein
             spreadsheet = client.open("Geetai_Villa_Data")
             sheet = spreadsheet.get_worksheet(0)
             return sheet.get_all_records()
+        else:
+            print("ERROR: GOOGLE_CREDS environment variable not found")
     except Exception as e:
-        # रेंडर के लॉग्स में अब असली वजह साफ़ दिखेगी
         print(f"SHEET CONNECTION ERROR: {str(e)}")
     return []
 
