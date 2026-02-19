@@ -83,7 +83,8 @@ def submit_enquiry():
 
 @app.route('/success')
 def success():
-    return "<h1>Enquiry Sent Successfully!</h1><p>We will contact you soon.</p><a href='/'>Back to Home</a>"
+    # अब यह "Success" पेज को रेंडर करेगा
+    return render_template('success.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
