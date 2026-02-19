@@ -10,24 +10,26 @@ def get_sheets_data():
     try:
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
         
-        # Render ke Environment Variable se data uthana
+        # Render के Environment Variable (GOOGLE_CREDS) से डेटा उठाना
         creds_json = os.environ.get("GOOGLE_CREDS")
         
         if creds_json:
+            # JSON स्ट्रिंग को डिक्शनरी में बदलना
             info = json.loads(creds_json)
-            # Private key formatting fix
+            
+            # Private key में अक्सर नई लाइन (\n) की समस्या होती है, उसे ठीक करना
             if "private_key" in info:
                 info["private_key"] = info["private_key"].replace("\\n", "\n")
             
             creds = Credentials.from_service_account_info(info, scopes=scopes)
             client = gspread.authorize(creds)
             
-            # Sheet ka naam check karein
+            # अपनी गूगल शीट का नाम चेक करें (Geetai_Villa_Data)
             spreadsheet = client.open("Geetai_Villa_Data")
             sheet = spreadsheet.get_worksheet(0)
             return sheet.get_all_records()
         else:
-            print("ERROR: GOOGLE_CREDS environment variable not found")
+            print("CRITICAL: GOOGLE_CREDS variable not found in Render settings")
     except Exception as e:
         print(f"SHEET CONNECTION ERROR: {str(e)}")
     return []
@@ -46,4 +48,3 @@ def villa_details(villa_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
