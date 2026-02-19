@@ -12,30 +12,24 @@ def get_sheets_data():
         creds_json = os.environ.get("GOOGLE_CREDS")
         
         if not creds_json:
-            print("DEBUG: GOOGLE_CREDS is missing in Environment Variables")
-            return []
+            return [{"Name": "ERROR: GOOGLE_CREDS variable missing in Render", "Price": "0"}]
 
-        # JSON क्लीनिंग: कभी-कभी पेस्ट करते समय शुरुआत/अंत में फालतू कोट्स आ जाते हैं
-        creds_json = creds_json.strip()
-        if creds_json.startswith("'") and creds_json.endswith("'"):
-            creds_json = creds_json[1:-1]
-        
         info = json.loads(creds_json)
-        
-        # Private key की नई लाइन फिक्स करना
         if "private_key" in info:
             info["private_key"] = info["private_key"].replace("\\n", "\n")
         
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         client = gspread.authorize(creds)
         
+        # यहाँ ध्यान दें: क्या शीट का नाम सही है?
         spreadsheet = client.open("Geetai_Villa_Data")
         sheet = spreadsheet.get_worksheet(0)
-        return sheet.get_all_records()
+        data = sheet.get_all_records()
+        return data
 
     except Exception as e:
-        print(f"FINAL DEBUG ERROR: {str(e)}")
-        return []
+        # यह एरर अब सीधा आपकी वेबसाइट पर दिखेगा
+        return [{"Name": f"CONNECTION ERROR: {str(e)}", "Price": "Check Sheet Name or Access"}]
 
 @app.route('/')
 def index():
@@ -50,8 +44,6 @@ def villa_details(villa_id):
     return render_template('villa_details.html', villa=villa)
 
 if __name__ == '__main__':
-    # रेंडर के लिए पोर्ट सेट करना
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
-
     
