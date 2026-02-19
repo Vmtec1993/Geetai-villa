@@ -67,9 +67,22 @@
     <section class="hero">
         <h1>Luxury villas & boutique stays in Lonavala</h1>
         <div class="search-box">
-            <div style="font-size: 0.8rem; text-align: left; margin-bottom: 5px;">Dates & Guests</div>
-            <button class="search-btn">Search Stays</button>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
+        <div>
+            <label style="font-size: 0.7rem; color: #eee;">Check-in</label>
+            <input type="date" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.8rem;">
         </div>
+        <div>
+            <label style="font-size: 0.7rem; color: #eee;">Guests</label>
+            <select style="width: 100%; background: transparent; border: none; color: white; font-size: 0.8rem;">
+                <option style="color: black;">2 Guests</option>
+                <option style="color: black;">5 Guests</option>
+                <option style="color: black;">10+ Guests</option>
+            </select>
+        </div>
+    </div>
+    <button class="search-btn" onclick="alert('Searching for available villas...')">Search Stays</button>
+</div>
     </section>
 
     <div class="stats-grid">
