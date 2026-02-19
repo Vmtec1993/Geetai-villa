@@ -31,7 +31,7 @@ def index():
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
     villas = get_sheets_data()
-    # ID मैच करने का सबसे पक्का तरीका
+    # ID मैच करने का सबसे पक्का तरीका (String Conversion)
     villa = next((v for v in villas if str(v.get('Villa_ID', '')) == str(villa_id)), None)
     if not villa:
         return "<h1>Villa Not Found!</h1><a href='/'>Go Back</a>", 404
