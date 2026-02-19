@@ -41,15 +41,19 @@ def enquiry(villa_id):
 
 @app.route('/submit_enquiry', methods=['POST'])
 def submit_enquiry():
-    # यहाँ यूजर का भरा हुआ डेटा रिसीव होता है
-    villa_name = request.form.get('villa_name')
-    user_name = request.form.get('name')
-    user_phone = request.form.get('phone')
-    
-    # डेटा को प्रिंट कर रहे हैं (बाद में इसे ईमेल या शीट पर भेज सकते हैं)
-    print(f"New Enquiry for {villa_name}: {user_name} - {user_phone}")
-    
-    return redirect(url_for('success'))
+    try:
+        # फॉर्म से डेटा लेना
+        villa_name = request.form.get('villa_name', 'Unknown Villa')
+        user_name = request.form.get('name', 'Guest')
+        user_phone = request.form.get('phone', 'No Phone')
+        
+        # आप चाहें तो यहाँ डेटा को प्रिंट कर सकते हैं देखने के लिए
+        print(f"Booking Request: {villa_name} by {user_name} ({user_phone})")
+        
+        return redirect(url_for('success'))
+    except Exception as e:
+        print(f"Error submitting enquiry: {e}")
+        return "Something went wrong. Please try again.", 500
 
 @app.route('/success')
 def success():
