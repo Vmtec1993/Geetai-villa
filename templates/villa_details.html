@@ -37,10 +37,47 @@
                 </button>
             </div>
 
-            <h3 class="fw-bold mt-4">Amenities</h3>
-            <p class="text-muted fs-5"><i class="bi bi-stars text-primary me-2"></i>{{ villa.Amenities }}</p>
+            <h3 class="fw-bold mt-4 mb-3">Villa Amenities</h3>
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-water text-primary fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Private Pool</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-snow text-info fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Fully AC</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-wifi text-dark fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Free WiFi</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-plug text-warning fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Power Backup</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-music-note-beamed text-danger fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Music System</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 text-center">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <i class="bi bi-p-circle text-success fs-3"></i>
+                        <p class="mb-0 mt-2 small fw-bold">Parking</p>
+                    </div>
+                </div>
+            </div>
 
-            <h3 class="fw-bold mt-4">Description</h3>
+            <h3 class="fw-bold">Description</h3>
             <p class="text-muted fs-5" style="line-height: 1.8;">{{ villa.Description }}</p>
             
             <hr class="my-5">
@@ -66,22 +103,21 @@
                     <span class="badge bg-light text-dark border p-2 mb-2">Rating: ⭐ {{ villa.Rating }}</span>
                 </div>
 
-                <a href="https://wa.me/918830024994?text=नमस्ते%20Geetai%20Villa!%20मैं%20*{{ villa.Name }}*%20बुक%20करने%20में%20रुचि%20रखता%20हूँ।%20कृपया%20मुझे%20उपलब्धता%20बताएँ।" 
-   class="btn btn-success btn-lg w-100 mb-3 rounded-pill fw-bold py-3 shadow">
-    <i class="bi bi-whatsapp me-2"></i>Book on WhatsApp
-</a>
-
+                <a href="https://wa.me/918830024994?text=नमस्ते%20Geetai%20Villa!%20मैं%20*{{ villa.Name }}*%20({{ villa.BHK }}%20BHK)%20बुक%20करने%20में%20रुचि%20रखता%20हूँ।%20कृपया%20उपलब्धता%20बताएँ।" 
+                   class="btn btn-success btn-lg w-100 mb-3 rounded-pill fw-bold py-3 shadow">
+                    <i class="bi bi-whatsapp me-2"></i>Book on WhatsApp
+                </a>
 
                 <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-outline-primary btn-lg w-100 mb-4 rounded-pill fw-bold py-3">
                     <i class="bi bi-calendar-check me-2"></i>Send Enquiry
                 </a>
 
                 <div class="bg-light p-3 rounded-3">
-                    <h6 class="fw-bold mb-2">Quick Features:</h6>
+                    <h6 class="fw-bold mb-2 text-dark">Quick Features:</h6>
                     <ul class="list-unstyled mb-0 small text-muted">
-                        <li><i class="bi bi-check2-circle text-primary me-2"></i> Private Pool</li>
-                        <li><i class="bi bi-check2-circle text-primary me-2"></i> Verified Luxury</li>
-                        <li><i class="bi bi-check2-circle text-primary me-2"></i> Safe & Secure</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i> Private Luxury Stay</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i> Clean & Sanitized</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i> 24/7 Security</li>
                     </ul>
                 </div>
             </div>
