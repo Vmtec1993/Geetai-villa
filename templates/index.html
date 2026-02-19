@@ -3,97 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geetai Villa | Luxury Stays</title>
+    <title>Geetai Villa | Lonavala</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #102C26; --bg: #F9F9F7; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); overflow-x: hidden; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: #333; }
         
         /* Navbar */
         .navbar { display: flex; justify-content: space-between; padding: 15px 20px; background: white; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-weight: 600; color: var(--primary); text-decoration: none; letter-spacing: 1px; }
+        .logo { font-weight: 600; color: var(--primary); text-decoration: none; }
 
-        /* Hero Section Fix */
+        /* Hero Fix - Isse site aadhi nahi dikhegi */
         .hero { 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1000&q=80'); 
-            min-height: 450px; background-size: cover; background-position: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000'); 
+            height: 400px; background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            text-align: center; color: white; padding: 40px 20px; 
+            text-align: center; color: white; padding: 20px; 
         }
         .hero h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 20px; }
 
-        /* Search Box */
+        /* Search Card */
         .search-box { 
-            background: rgba(255,255,255,0.15); backdrop-filter: blur(15px); padding: 20px; 
-            border-radius: 20px; width: 100%; max-width: 380px; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); padding: 20px; 
+            border-radius: 20px; width: 100%; max-width: 360px; border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .search-item { text-align: left; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; }
-        .label { font-size: 0.6rem; text-transform: uppercase; color: #ddd; display: block; margin-bottom: 5px; }
+        .search-btn { background: var(--primary); color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+        /* Villa Section */
+        .container { padding: 30px 20px; max-width: 600px; margin: 0 auto; min-height: 100vh; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; }
         
-        .guest-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .cnt-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
-
-        .search-btn { background: var(--primary); color: white; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; }
-
-        /* Villa Cards */
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        .villa-card { background: white; border-radius: 20px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .villa-img { width: 100%; height: 220px; object-fit: cover; }
+        .villa-card { background: white; border-radius: 20px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .villa-img { width: 100%; height: 230px; object-fit: cover; }
         .villa-info { padding: 15px; }
+        
+        .guest-ctrl { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+        .btn-circle { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <a href="/" class="logo">GEETAI VILLA</a>
-        <div style="cursor:pointer" onclick="document.getElementById('sideMenu').style.right='0'">☰</div>
+        <div style="font-size: 1.2rem;">☰</div>
     </nav>
 
     <section class="hero">
-        <h1>Luxury villas & boutique stays in Lonavala</h1>
+        <h1>Find Your Luxury Escape</h1>
         <div class="search-box">
-            <div class="search-item">
-                <span class="label">Check-in Date</span>
-                <input type="text" onfocus="(this.type='date')" class="search-input" style="width:100%; background:transparent; border:none; color:white; outline:none;" placeholder="Select Date">
+            <div style="text-align:left; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:10px;">
+                <small style="text-transform:uppercase; font-size:0.6rem; color:#ddd">Dates</small>
+                <div style="font-size:0.9rem">Select Check-in / Out</div>
             </div>
-            <div class="guest-row">
-                <div style="text-align: left;">
-                    <span class="label">Guests</span>
-                    <span id="gCount" style="color: white; font-weight: 600;">2 Guests</span>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="cnt-btn" onclick="updateG(-1)">-</button>
-                    <button class="cnt-btn" onclick="updateG(1)">+</button>
+            <div class="guest-ctrl">
+                <span id="gDisplay">2 Guests</span>
+                <div>
+                    <button class="btn-circle" onclick="updateG(-1)">-</button>
+                    <button class="btn-circle" onclick="updateG(1)">+</button>
                 </div>
             </div>
-            <button class="search-btn" onclick="location.href='#stays'">Explore Villas</button>
+            <button class="search-btn" onclick="document.getElementById('stays').scrollIntoView()">Search Stays</button>
         </div>
     </section>
 
     <div class="container" id="stays">
-        <h2 style="font-family: 'Playfair Display', serif;">Featured stays</h2>
+        <h2 class="section-title">Featured Properties</h2>
+        
         {% for villa in villas %}
         <div class="villa-card" onclick="location.href='/villa/{{ villa.Villa_ID }}'">
             <img src="{{ villa.Image_Main }}" class="villa-img">
             <div class="villa-info">
-                <div style="display:flex; justify-content:space-between">
-                    <h3 style="margin:0">{{ villa.Name }}</h3>
-                    <span style="color:#D4AC0D">★ {{ villa.Rating }}</span>
+                <div style="display:flex; justify-content:space-between; align-items: center;">
+                    <h3 style="margin:0; font-size:1.2rem;">{{ villa.Name }}</h3>
+                    <span style="color:#D4AC0D; font-weight:700;">★ {{ villa.Rating }}</span>
                 </div>
-                <p style="color:#777; font-size:0.8rem">📍 Lonavala • {{ villa.BHK }}</p>
-                <div style="font-weight:700; color:var(--primary); margin-top:10px">₹{{ villa.Price }} <small style="font-weight:400; color:#999">/night</small></div>
+                <p style="color:#777; font-size:0.8rem; margin:5px 0;">📍 Lonavala • {{ villa.BHK }}</p>
+                <div style="font-weight:700; color:var(--primary); font-size:1.1rem; margin-top:10px;">
+                    ₹{{ villa.Price }} <small style="font-weight:400; color:#999">/night</small>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
 
     <script>
-        let guests = 2;
-        function updateG(v) {
-            guests += v;
-            if(guests < 2) guests = 2;
-            if(guests > 15) guests = 15;
-            document.getElementById('gCount').innerText = guests + " Guests";
+        let g = 2;
+        function updateG(val) {
+            g += val;
+            if(g < 2) g = 2;
+            if(g > 15) g = 15;
+            document.getElementById('gDisplay').innerText = g + " Guests";
         }
     </script>
 </body>
