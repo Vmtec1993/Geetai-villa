@@ -64,11 +64,15 @@
 
     <div class="main-content">
         <div class="info-section">
-            <div class="villa-header">
-                <p>LONAVALA, MAHARASHTRA</p>
-                <h1>{{ villa.Name }}</h1>
-            </div>
-
+            <div class="main-content">
+    <div class="info-section">
+        
+        <div class="villa-header">
+            <p>LONAVALA • ★ {{ villa.Rating if villa.Rating else '4.9' }}</p>
+            <h1>{{ villa.Name }}</h1>
+        </div>
+        <div class="amenities">
+            <div class="amenity">🏊 Private Pool</div>
             <div class="amenities">
                 <div class="amenity">🏊 Private Pool</div>
                 <div class="amenity">🛏️ {{ villa.BHK }}</div>
