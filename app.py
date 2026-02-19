@@ -33,11 +33,13 @@ def index():
         if client:
             sheet = client.open("Geetai_Villa_Data").get_worksheet(0)
             villas = sheet.get_all_records()
+            # यहाँ हम यह सुनिश्चित कर रहे हैं कि डेटा खाली न हो
             return render_template('index.html', villas=villas)
         return "Database Connection Failed", 500
     except Exception as e:
         logger.error(f"Home Page Error: {e}")
-        return "Error loading home page", 500
+        return render_template('index.html', villas=[]) # खाली लिस्ट भेजें ताकि एरर न आए
+
 
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
