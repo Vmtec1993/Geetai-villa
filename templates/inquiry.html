@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay | Geetai Villa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #102C26; --gold: #C5A059; --bg: #F9F9F7; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: #333; }
+        
+        .header { padding: 40px 20px; text-align: center; background: white; border-bottom: 1px solid #eee; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary); margin: 0; }
+        .header p { font-size: 0.9rem; color: #777; margin-top: 10px; }
+
+        .form-container { max-width: 500px; margin: -30px auto 50px; background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; color: #999; }
+        .input-field { width: 100%; padding: 15px; border: 1px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; transition: 0.3s; }
+        .input-field:focus { border-color: var(--primary); background: #fdfdfd; }
+
+        .btn-submit { width: 100%; background: var(--primary); color: white; padding: 18px; border: none; border-radius: 15px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; }
+        
+        .back-link { display: block; text-align: center; margin-top: 25px; text-decoration: none; color: #777; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Inquiry Form</h1>
+        <p>Fill in your details and we'll get back to you shortly.</p>
+    </div>
+
+    <div class="form-container">
+        <form action="/submit_inquiry" method="POST">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="name" class="input-field" placeholder="Enter your name" required>
+            </div>
+
+            <div class="input-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" name="phone" class="input-field" placeholder="+91 00000 00000" required>
+            </div>
+
+            <div class="input-group">
+                <label>Check-in Date</label>
+                <input type="date" name="date" class="input-field" required>
+            </div>
+
+            <div class="input-group">
+                <label>Total Guests</label>
+                <select name="guests" class="input-field">
+                    <option>2-5 Guests</option>
+                    <option>6-10 Guests</option>
+                    <option>10-15 Guests</option>
+                    <option>15+ Guests</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Message (Optional)</label>
+                <textarea name="message" class="input-field" style="height: 100px;" placeholder="Any special requests?"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit Inquiry</button>
+        </form>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+</body>
+</html>
