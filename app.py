@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 def get_sheets_data():
     try:
-        # यहाँ हमने Scope बढ़ा दिया है ताकि गूगल को डेटा पढ़ने की पूरी परमिशन मिले
+        # यहाँ हमने 'drive' वाला स्कोप बढ़ा दिया है, जो 403 एरर को खत्म करेगा
         scopes = [
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive"
@@ -26,13 +26,12 @@ def get_sheets_data():
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         client = gspread.authorize(creds)
         
-        # आपकी शीट का नाम
+        # शीट का नाम पक्का करें
         spreadsheet = client.open("Geetai_Villa_Data")
         sheet = spreadsheet.get_worksheet(0)
         return sheet.get_all_records()
     except Exception as e:
-        # अगर अभी भी कुछ अटका है तो यहाँ दिखेगा
-        return [{"Name": f"Final Finish: {str(e)}", "Price": "Almost Done!"}]
+        return [{"Name": f"Almost There: {str(e)}", "Price": "Checking Permission"}]
 
 @app.route('/')
 def index():
