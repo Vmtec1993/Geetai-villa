@@ -100,6 +100,56 @@
             </div>
         </div>
     </div>
+<div id="galleryOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center;">
+    <span onclick="closeGallery()" style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+    <img id="overlayImg" src="" style="max-width:90%; max-height:80%; border-radius:10px; box-shadow:0 0 20px rgba(255,255,255,0.2);">
+    
+    <div style="position:absolute; width:100%; display:flex; justify-content:space-between; padding:0 20px; box-sizing:border-box;">
+        <button onclick="prevImg()" style="background:none; border:none; color:white; font-size:40px; cursor:pointer;">&#10094;</button>
+        <button onclick="nextImg()" style="background:none; border:none; color:white; font-size:40px; cursor:pointer;">&#10095;</button>
+    </div>
+</div>
 
+<script>
+    let images = ["{{ villa.Image_Main }}", "{{ villa.Image_2 }}", "{{ villa.Image_3 }}"];
+    let currentIndex = 0;
+
+    // फोटो पर क्लिक करने पर गैलरी खोलें
+    document.querySelectorAll('.gallery-container img').forEach((img, index) => {
+        img.onclick = () => {
+            currentIndex = index;
+            openGallery();
+        };
+    });
+
+    function openGallery() {
+        document.getElementById('overlayImg').src = images[currentIndex];
+        document.getElementById('galleryOverlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // स्क्रॉल बंद करें
+    }
+
+    function closeGallery() {
+        document.getElementById('galleryOverlay').style.display = 'none';
+        document.body.style.overflow = 'auto'; // स्क्रॉल चालू करें
+    }
+
+    function nextImg() {
+        currentIndex = (currentIndex + 1) % images.length;
+        document.getElementById('overlayImg').src = images[currentIndex];
+    }
+
+    function prevImg() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        document.getElementById('overlayImg').src = images[currentIndex];
+    }
+
+    // कीबोर्ड से भी कंट्रोल करें
+    document.onkeydown = function(e) {
+        if (e.key === "Escape") closeGallery();
+        if (e.key === "ArrowRight") nextImg();
+        if (e.key === "ArrowLeft") prevImg();
+    };
+</script>
+    
 </body>
 </html>
