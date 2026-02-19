@@ -60,6 +60,7 @@ def success():
     return render_template('success.html')
 
 if __name__ == '__main__':
+    import os
+    # रेंडर के लिए पोर्ट बाइंडिंग
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-    
