@@ -66,9 +66,11 @@
                     <span class="badge bg-light text-dark border p-2 mb-2">Rating: ⭐ {{ villa.Rating }}</span>
                 </div>
 
-                <a href="https://wa.me/918830024994?text=Hi, I want to book {{ villa.Name }}" class="btn btn-success btn-lg w-100 mb-3 rounded-pill fw-bold py-3 shadow">
-                    <i class="bi bi-whatsapp me-2"></i>Book on WhatsApp
-                </a>
+                <a href="https://wa.me/918830024994?text=नमस्ते%20Geetai%20Villa!%20मैं%20*{{ villa.Name }}*%20बुक%20करने%20में%20रुचि%20रखता%20हूँ।%20कृपया%20मुझे%20उपलब्धता%20बताएँ।" 
+   class="btn btn-success btn-lg w-100 mb-3 rounded-pill fw-bold py-3 shadow">
+    <i class="bi bi-whatsapp me-2"></i>Book on WhatsApp
+</a>
+
 
                 <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-outline-primary btn-lg w-100 mb-4 rounded-pill fw-bold py-3">
                     <i class="bi bi-calendar-check me-2"></i>Send Enquiry
