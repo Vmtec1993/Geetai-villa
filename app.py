@@ -8,12 +8,10 @@ app = Flask(__name__)
 
 def get_sheets_data():
     try:
-        # यहाँ हमने 'drive' वाला स्कोप बढ़ा दिया है, जो 403 एरर को खत्म करेगा
         scopes = [
             "https://www.googleapis.com/auth/spreadsheets",
             "https://www.googleapis.com/auth/drive"
         ]
-        
         creds_raw = os.environ.get("GOOGLE_CREDS")
         if not creds_raw: return []
 
@@ -26,29 +24,27 @@ def get_sheets_data():
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         client = gspread.authorize(creds)
         
-        # शीट का नाम पक्का करें
         spreadsheet = client.open("Geetai_Villa_Data")
         sheet = spreadsheet.get_worksheet(0)
         return sheet.get_all_records()
-    except Exception as e:
-        return [{"Name": f"Almost There: {str(e)}", "Price": "Checking Permission"}]
+    except Exception:
+        return []
 
 @app.route('/')
 def index():
     villas = get_sheets_data()
     return render_template('index.html', villas=villas)
 
-@@app.route('/villa/<villa_id>')
+@app.route('/villa/<villa_id>')
 def villa_details(villa_id):
     villas = get_sheets_data()
-    # यहाँ हम दोनों को String में बदलकर मैच करेंगे ताकि गलती की गुंजाइश न रहे
+    # ID को string में बदलकर मैच करना ताकि कोई एरर न आए
     villa = next((v for v in villas if str(v.get('Villa_ID', '')) == str(villa_id)), None)
     
     if not villa:
-        return "<h1>Villa not found!</h1><p>ID: " + str(villa_id) + " does not match any villa.</p><a href='/'>Back to Home</a>", 404
+        return "<h1>Villa not found!</h1><a href='/'>Back to Home</a>", 404
         
     return render_template('villa_details.html', villa=villa)
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
