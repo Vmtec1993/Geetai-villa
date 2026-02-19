@@ -9,27 +9,29 @@ app = Flask(__name__)
 def get_sheets_data():
     try:
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-        creds_json = os.environ.get("GOOGLE_CREDS")
+        creds_raw = os.environ.get("GOOGLE_CREDS")
         
-        if not creds_json:
-            return [{"Name": "ERROR: GOOGLE_CREDS variable missing in Render", "Price": "0"}]
+        if not creds_raw:
+            return [{"Name": "ERROR: GOOGLE_CREDS MISSING", "Price": "0"}]
 
-        info = json.loads(creds_json)
+        # सफाई: एक्स्ट्रा कोट्स हटाना
+        creds_raw = creds_raw.strip().strip("'").strip('"')
+        info = json.loads(creds_raw)
+        
+        # Private Key को सही फॉर्मेट में बदलना
         if "private_key" in info:
             info["private_key"] = info["private_key"].replace("\\n", "\n")
         
         creds = Credentials.from_service_account_info(info, scopes=scopes)
         client = gspread.authorize(creds)
         
-        # यहाँ ध्यान दें: क्या शीट का नाम सही है?
+        # आपकी शीट का नाम
         spreadsheet = client.open("Geetai_Villa_Data")
         sheet = spreadsheet.get_worksheet(0)
-        data = sheet.get_all_records()
-        return data
+        return sheet.get_all_records()
 
     except Exception as e:
-        # यह एरर अब सीधा आपकी वेबसाइट पर दिखेगा
-        return [{"Name": f"CONNECTION ERROR: {str(e)}", "Price": "Check Sheet Name or Access"}]
+        return [{"Name": f"JWT FIX NEEDED: {str(e)}", "Price": "Check JSON Format"}]
 
 @app.route('/')
 def index():
