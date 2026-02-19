@@ -85,9 +85,10 @@
             <img src="{{ villa.Image_Main }}" class="villa-img">
             <div class="villa-content">
                 <div class="villa-title">
-                    {{ villa.Name }}
-                    <span class="rating">★ 4.9</span>
-                </div>
+    {{ villa.Name }}
+    <span class="rating">★ {{ villa.Rating if villa.Rating else '4.9' }}</span>
+</div>
+
                 <div class="villa-details">
                     Lonavala, Maharashtra • {{ villa.BHK }}
                 </div>
