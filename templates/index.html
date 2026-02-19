@@ -89,56 +89,45 @@
     </div>
 
     <section class="hero">
-        <h1>Luxury villas & boutique stays in Lonavala</h1>
-        <div class="search-box">
-            <div class="search-row">
-                <div class="search-col">
-                    <span class="search-label">Check-in</span>
-                    <input type="text" onfocus="(this.type='date')" class="search-input" placeholder="Add date">
-                </div>
-                <div class="search-col">
-                    <span class="search-label">Guests</span>
-                    <select class="search-input">
-                        <option>1-5 Guests</option>
-                        <option>6-10 Guests</option>
-                        <option>10+ Guests</option>
-                    </select>
-                </div>
-            </div>
-            <button class="search-btn" onclick="alert('Searching for available dates...')">Search Stays</button>
+    <section class="hero" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('your-hero-image.jpg'); background-size: cover; background-position: center; padding: 20px; box-sizing: border-box;">
+    
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: white; text-align: center; margin-bottom: 20px;">Luxury villas & boutique stays in Lonavala</h1>
+
+    <div class="search-box" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.3); box-sizing: border-box;">
+        
+        <div style="margin-bottom: 15px;">
+            <label style="color: white; font-size: 0.7rem; display: block; margin-bottom: 5px; text-transform: uppercase;">Check-in / Out</label>
+            <input type="text" onfocus="(this.type='date')" placeholder="Select Dates" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem; outline: none;">
         </div>
-    </section>
 
-    <div class="stats-container">
-        <div class="stat-card"><h3>500+</h3><p>Happy Guests</p></div>
-        <div class="stat-card"><h3>4.9 / 5</h3><p>Avg Rating</p></div>
-    </div>
+        <hr style="border: 0.5px solid rgba(255,255,255,0.2); margin-bottom: 15px;">
 
-    <h2 class="featured-title" id="stays">Featured stays</h2>
-
-    <div class="card-container">
-        {% for villa in villas %}
-        <div class="villa-card">
-            <div class="villa-img-container">
-                <span class="villa-badge">VILLA</span>
-                <img src="{{ villa.Image_Main }}" class="villa-img">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <label style="color: white; font-size: 0.7rem; display: block; text-transform: uppercase;">Guests</label>
+                <span id="guestCountDisplay" style="color: white; font-size: 1.1rem; font-weight: 600;">2 Guests</span>
             </div>
-            <div class="villa-info">
-                <div class="villa-name-row">
-                    <h3 class="villa-name">{{ villa.Name }}</h3>
-                    <span class="rating-badge">★ {{ villa.Rating if villa.Rating else '4.9' }}</span>
-                </div>
-                <p class="villa-meta">📍 Lonavala, Maharashtra • {{ villa.BHK }}</p>
-                <div class="price-footer">
-                    <div class="price-val">₹{{ villa.Price }} <small style="font-weight:400; color:#888;">/night</small></div>
-                    <a href="/villa/{{ villa.Villa_ID }}" class="view-btn">View Details →</a>
-                </div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button onclick="changeGuests(-1)" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-size: 1.2rem;">-</button>
+                
+                <button onclick="changeGuests(1)" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; font-size: 1.2rem;">+</button>
             </div>
         </div>
-        {% endfor %}
-    </div>
 
-    <script>
+        <button class="search-btn" style="background: #102C26; color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;" onclick="alert('Searching for ' + guestCount + ' guests...')">Search Stays</button>
+    </div>
+</section>
+
+<script>
+    let guestCount = 2; // Default minimum
+    function changeGuests(val) {
+        guestCount += val;
+        if (guestCount < 2) guestCount = 2; // Min limit
+        if (guestCount > 15) guestCount = 15; // Max limit
+        document.getElementById('guestCountDisplay').innerText = guestCount + " Guests";
+    }
+</script>
+
         function toggleMenu() {
             document.getElementById('sideMenu').classList.toggle('active');
         }
