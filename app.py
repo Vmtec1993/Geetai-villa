@@ -30,15 +30,17 @@ if creds_json:
     except Exception as e:
         print(f"Sheet Error: {e}")
 
-# --- Telegram Alert ---
+# --- Telegram Alert (FIXED) ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
-        requests.post(url, data=payload, timeout=10)
+        # यहाँ 'data' की जगह 'json' किया है, यही आपकी नोटिफिकेशन की समस्या थी
+        payload = {"chat_id": str(TELEGRAM_CHAT_ID), "text": message, "parse_mode": "Markdown"}
+        response = requests.post(url, json=payload, timeout=10)
+        print(f"Telegram Log: {response.status_code}") # रेंडर लॉग्स में देखने के लिए
     except Exception as e:
         print(f"Telegram Error: {e}")
 
@@ -55,7 +57,6 @@ def index():
 def villa_details(villa_id):
     if sheet:
         villas = sheet.get_all_records()
-        # आपकी शीट के 'Villa_ID' कॉलम से मैच करना
         villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
         if villa:
             return render_template('villa_details.html', villa=villa)
@@ -83,6 +84,7 @@ def enquiry(villa_id):
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
+    # रेंडर के लिए पोर्ट को 5000 की जगह dynamic बनाया गया है
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     
