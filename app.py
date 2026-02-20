@@ -12,7 +12,7 @@ creds_json = os.environ.get('GOOGLE_CREDS')
 sheet = None
 enquiry_sheet = None
 
-# डेटाबेस कनेक्शन को और मज़बूत बनाया गया है
+# डेटाबेस कनेक्शन चेक
 if creds_json:
     try:
         info = json.loads(creds_json)
@@ -29,26 +29,25 @@ if creds_json:
         except:
             enquiry_sheet = sheet
     except Exception as e:
-        print(f"CRITICAL: Database connection failed: {e}")
+        print(f"CRITICAL: Database Error: {e}")
 
-# --- Telegram Alert (Direct GET Method) ---
+# --- Telegram Alert (Direct Method) ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
-        # ब्राउज़र लिंक वाला तरीका जो 100% काम करता है
+        # ब्राउज़र लिंक वाला तरीका (GET Request) जो हमेशा काम करता है
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         params = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
         requests.get(url, params=params, timeout=10)
-    except:
-        pass
+    except Exception as e:
+        print(f"Telegram Error: {e}")
 
 # --- Routes ---
 
 @app.route('/')
 def index():
-    # अगर डेटाबेस कनेक्ट नहीं है, तो खाली लिस्ट दिखाओ ताकि एरर न आए
     villas = []
     if sheet:
         try:
@@ -67,30 +66,33 @@ def villa_details(villa_id):
                 return render_template('villa_details.html', villa=villa)
         except:
             pass
-    return "Villa info temporarily unavailable", 404
+    return "Villa info unavailable", 404
 
 @app.route('/enquiry/<villa_id>', methods=['GET', 'POST'])
 def enquiry(villa_id):
     if request.method == 'POST':
         name = request.form.get('name')
         phone = request.form.get('phone')
-        
-        # गूगल शीट अपडेट
+        check_in = request.form.get('check_in')
+        check_out = request.form.get('check_out')
+        guests = request.form.get('guests')
+        message = request.form.get('message')
+
+        # Google Sheet Update
         if enquiry_sheet:
             try:
-                enquiry_sheet.append_row([villa_id, name, phone, "N/A", "N/A", "N/A", "Form Submit"])
-            except:
-                pass
+                enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
+            except: pass
 
-        # टेलीग्राम अलर्ट
-        send_telegram_alert(f"🚀 New Enquiry!\nName: {name}\nPhone: {phone}\nVilla: {villa_id}")
+        # Telegram Alert
+        alert_text = f"🚀 New Enquiry!\nName: {name}\nPhone: {phone}\nVilla: {villa_id}"
+        send_telegram_alert(alert_text)
         
-        return "<h1>Thank you! We will call you soon.</h1><a href='/'>Back</a>"
+        return "<h1>Thank you! Your enquiry has been sent.</h1><a href='/'>Back to Home</a>"
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # पोर्ट एरर फिक्स: रेंडर को 10000 पोर्ट पसंद है
+    # रेंडर पोर्ट फिक्स (Port 10000 और Host 0.0.0.0 जरूरी है)
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
-    
