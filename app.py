@@ -37,9 +37,16 @@ TELEGRAM_CHAT_ID = "6746178673"
 def send_telegram_alert(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
-        requests.post(url, json=payload)
-    except: pass
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID, 
+            "text": message, 
+            "parse_mode": "Markdown"
+        }
+        response = requests.post(url, json=payload, timeout=10)
+        return response.status_code == 200
+    except Exception as e:
+        print(f"Telegram Error: {e}")
+        return False
 
 # --- Routes ---
 
@@ -69,18 +76,29 @@ def enquiry(villa_id):
         guests = request.form.get('guests')
         message = request.form.get('message')
 
+        # Google Sheet में सेव करें
         if enquiry_sheet:
             try:
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
-        alert_text = f"🔔 *New Enquiry!*\n🏡 *Villa:* {villa_id}\n👤 *Name:* {name}\n📞 *Phone:* {phone}\n📅 *Stay:* {check_in} to {check_out}\n👨‍👩‍👧 *Guests:* {guests}"
+        # टेलीग्राम मैसेज भेजें
+        alert_text = (
+            f"🔔 *NEW ENQUIRY!*\n\n"
+            f"🏡 *Villa ID:* {villa_id}\n"
+            f"👤 *Name:* {name}\n"
+            f"📞 *Phone:* {phone}\n"
+            f"📅 *Stay:* {check_in} to {check_out}\n"
+            f"👨‍👩‍👧 *Guests:* {guests}\n"
+            f"💬 *Msg:* {message}"
+        )
         send_telegram_alert(alert_text)
-        return "<h3>Enquiry Sent Successfully! We will contact you soon.</h3><a href='/'>Go Back</a>"
+        
+        # Success Page पर भेजें
+        return render_template('success.html')
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # Render के लिए पोर्ट फिक्स
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
