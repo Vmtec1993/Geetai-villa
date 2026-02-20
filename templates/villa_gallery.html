@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4 text-center">
+        <a href="/gallery" class="btn btn-sm btn-outline-secondary rounded-pill mb-3">← Back to Gallery</a>
+        <h1 class="fw-bold text-uppercase">{{ villa_name }}</h1>
+        <hr class="mx-auto" style="width: 60px; height: 3px; background: #fbbf24; border: none;">
+    </div>
+
+    <div class="d-flex justify-content-center gap-2 mb-5 overflow-auto pb-2" id="filter-buttons">
+        <button class="btn btn-dark rounded-pill px-4 filter-btn" data-filter="all">All</button>
+        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="pool">Pool</button>
+        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="bedroom">Bedroom</button>
+        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="hall">Living Area</button>
+    </div>
+
+    <div class="row g-3" id="photo-grid">
+        {% for p in photos %}
+            {% if p.display_image %}
+            <div class="col-md-4 col-sm-6 photo-item all {{ p.Category | lower | trim }}">
+                <div class="rounded-4 shadow-sm overflow-hidden" style="height: 250px;">
+                    <img src="{{ p.display_image }}" class="w-100 h-100" style="object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x300?text=Error+Loading'">
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.replace('btn-dark', 'btn-outline-dark'));
+            this.classList.replace('btn-outline-dark', 'btn-dark');
+
+            const val = this.getAttribute('data-filter').toLowerCase();
+            document.querySelectorAll('.photo-item').forEach(item => {
+                if (val === 'all' || item.classList.contains(val)) item.style.display = 'block';
+                else item.style.display = 'none';
+            });
+        });
+    });
+</script>
+{% endblock %}
