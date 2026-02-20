@@ -1,49 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <div class="card shadow-lg border-0 p-5" style="border-radius: 30px; background: #fff;">
-                <div class="mb-4">
-                    <div class="display-1 text-success animated bounceIn">
-                        <i class="bi bi-check-circle-fill"></i>
-                    </div>
-                </div>
-                
-                <h1 class="fw-bold text-dark mb-3">Enquiry Sent!</h1>
-                <p class="text-muted fs-5 mb-4">
-                    Thank you for choosing <b>Geetai Villa</b>. <br>
-                    Our team has received your request and we will contact you on WhatsApp within 15 minutes.
-                </p>
-                
-                <div class="d-grid gap-3">
-                    <a href="/" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">
-                        <i class="bi bi-house-door me-2"></i> Back to Home
-                    </a>
-                    
-                    <a href="https://wa.me/918830024994" target="_blank" class="btn btn-outline-success btn-lg rounded-pill fw-bold">
-                        <i class="bi bi-whatsapp me-2"></i> Chat with Us
-                    </a>
-                </div>
-                
-                <div class="mt-4 pt-3 border-top">
-                    <small class="text-uppercase tracking-wider text-muted fw-bold" style="font-size: 0.7rem;">
-                        Geetai Villa & Resorts • Lonavala
-                    </small>
-                </div>
-            </div>
+<div class="container py-5 text-center">
+    <div class="card shadow-lg border-0 p-5 mx-auto" style="max-width: 500px; border-radius: 30px;">
+        <div class="mb-4 display-1 text-success">
+            <i class="bi bi-check-all"></i>
+        </div>
+        <h2 class="fw-bold">Request Received!</h2>
+        <p class="text-muted fs-5">Thank you for choosing <b>MoreVistas</b>. Our concierge will contact you on WhatsApp shortly to confirm your stay.</p>
+        <div class="d-grid gap-2 mt-4">
+            <a href="/" class="btn btn-primary btn-lg rounded-pill fw-bold">Back to MoreVistas</a>
+            <a href="https://wa.me/918830024994" class="btn btn-outline-success btn-lg rounded-pill">
+                <i class="bi bi-whatsapp"></i> Chat on WhatsApp
+            </a>
         </div>
     </div>
 </div>
-
-<style>
-    .animated { animation-duration: 1s; animation-fill-mode: both; }
-    @keyframes bounceIn {
-        0% { opacity: 0; transform: scale(.3); }
-        50% { opacity: 1; transform: scale(1.05); }
-        70% { transform: scale(.9); }
-        100% { transform: scale(1); }
-    }
-    .bounceIn { animation-name: bounceIn; }
-</style>
 {% endblock %}
