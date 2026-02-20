@@ -1,39 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<header class="py-5 text-center" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; color: white; padding: 120px 0 !important;">
+<header class="py-5 text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; padding: 150px 0 !important;">
     <div class="container">
-        <h1 class="display-3 fw-bold">Welcome to MoreVistas</h1>
-        <p class="lead mb-4">Discover the perfect escape in our handpicked luxury villas.</p>
-        <a href="#villas" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow">View Villas</a>
+        <h1 class="display-2 fw-800 mb-3">Your Private Oasis Awaits</h1>
+        <p class="lead mb-4 fs-4 opacity-75">Curated Luxury Villas for the Discriminating Traveler.</p>
+        <a href="#explore" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold">Explore Collection</a>
     </div>
 </header>
 
-<div class="container my-5" id="villas">
-    <h2 class="text-center fw-bold mb-5">Our Luxury Collection</h2>
+<div class="container my-5 pt-5" id="explore">
+    <div class="d-flex justify-content-between align-items-end mb-5">
+        <div>
+            <h6 class="text-primary fw-bold text-uppercase ls-2">Luxury Rentals</h6>
+            <h2 class="display-5 fw-bold">Trending Villas</h2>
+        </div>
+    </div>
+
     <div class="row g-4">
         {% for villa in villas %}
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
-                <img src="{{ villa.Image_URL }}" class="card-img-top" style="height: 250px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold text-dark">{{ villa.Villa_Name }}</h5>
-                    <p class="text-muted small"><i class="bi bi-geo-alt-fill"></i> Lonavala, Maharashtra</p>
+            <div class="villa-card card h-100">
+                <div class="card-img-container">
+                    {% if villa.Offer and villa.Offer != "" and villa.Offer != "None" %}
+                    <div class="offer-badge">
+                        <i class="bi bi-patch-check-fill me-1"></i> {{ villa.Offer }} OFF
+                    </div>
+                    {% endif %}
                     
-                    <div class="d-flex justify-content-between mb-3 text-secondary" style="font-size: 0.85rem; border-top: 1px solid #eee; pt-2;">
-                        <span><i class="bi bi-water text-primary"></i> Pool</span>
-                        <span><i class="bi bi-snow text-info"></i> AC</span>
-                        <span><i class="bi bi-wifi text-success"></i> Wifi</span>
-                        <span><i class="bi bi-p-circle text-danger"></i> Parking</span>
+                    <img src="{{ villa.Image_URL }}" class="card-img-top" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9daa3b6af?q=80&w=1000';">
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h4 class="fw-bold mb-0 text-dark">{{ villa.Villa_Name }}</h4>
+                        <div class="text-warning small"><i class="bi bi-star-fill"></i> 4.9</div>
+                    </div>
+                    <p class="text-muted small mb-4"><i class="bi bi-geo-alt me-1"></i> Lonavala, MH</p>
+                    
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <div class="amenity-pill"><i class="bi bi-water text-primary"></i> Pool</div>
+                        <div class="amenity-pill"><i class="bi bi-snow text-info"></i> AC</div>
+                        <div class="amenity-pill"><i class="bi bi-wifi text-success"></i> Wifi</div>
                     </div>
 
-                    <div class="mb-3">
-                        <span class="badge bg-danger">Offer: {{ villa.Offer }}</span>
-                        <small class="text-muted d-block mt-1">Ends: {{ villa.Offer_End }}</small>
-                    </div>
-
-                    <div class="d-grid">
-                        <a href="/villa/{{ villa.Villa_ID }}" class="btn btn-outline-primary rounded-pill fw-bold">View Details</a>
+                    <div class="pt-3 border-top d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small d-block">Starting from</span>
+                            <span class="fs-4 fw-bold text-primary">₹{{ villa.Price }}<small class="text-muted fs-6 fw-normal">/night</small></span>
+                        </div>
+                        <a href="/villa/{{ villa.Villa_ID }}" class="btn btn-dark rounded-pill px-4 fw-bold">View</a>
                     </div>
                 </div>
             </div>
@@ -41,5 +57,4 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
