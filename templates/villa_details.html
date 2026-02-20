@@ -14,13 +14,14 @@
     </div>
 
     <div class="mt-4 px-2">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-2">
             <h2 class="fw-bold m-0">{{ villa.Villa_Name }}</h2>
             <div class="text-danger fw-bold small border border-danger px-2 py-1 rounded">
-                Offer Ends: <span id="detail-timer">02:59:59</span>
+                <i class="bi bi-clock-history"></i> Ends: <span id="detail-timer">02:59:59</span>
             </div>
         </div>
-        <p class="text-muted mt-2">{{ villa.Description }}</p>
+        <span class="badge bg-primary mb-3">{{ villa.BHK }} BHK Villa</span>
+        <p class="text-muted">{{ villa.Description }}</p>
         
         <div class="bg-light p-3 rounded-4 my-4">
             <h6 class="fw-bold mb-3">✨ Premium Amenities</h6>
@@ -30,14 +31,16 @@
                 <div class="col-4"><div class="bg-white p-2 rounded shadow-sm"><i class="bi bi-wifi text-success"></i><br>WiFi</div></div>
             </div>
         </div>
-        <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-primary w-100 rounded-pill py-3 fw-bold">Check Availability & Book</a>
+
+        <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-primary w-100 rounded-pill py-3 fw-bold">Book This Villa</a>
     </div>
 </div>
+
 <script>
-    let dTime = 10800; 
+    let dTime = 10800; // 3 hours timer
     setInterval(() => {
         let h = Math.floor(dTime/3600), m = Math.floor((dTime%3600)/60), s = dTime%60;
-        document.getElementById('detail-timer').innerText = `${h}h ${m}m ${s}s`;
+        document.getElementById('detail-timer').innerText = `${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
         dTime--;
     }, 1000);
 </script>
