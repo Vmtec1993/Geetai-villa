@@ -1,55 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<header class="py-5 text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; padding: 150px 0 !important;">
+<header class="py-5 text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; padding: 120px 0 !important; margin-bottom: 40px;">
     <div class="container">
-        <h1 class="display-2 fw-800 mb-3">Your Private Oasis Awaits</h1>
-        <p class="lead mb-4 fs-4 opacity-75">Curated Luxury Villas for the Discriminating Traveler.</p>
-        <a href="#explore" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold">Explore Collection</a>
+        <h1 class="display-3 fw-bold mb-3">Welcome to MoreVistas</h1>
+        <p class="lead mb-4 fs-4 opacity-75">Experience World-Class Luxury in the Heart of Nature.</p>
+        <a href="#explore" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg">Explore Collection</a>
     </div>
 </header>
 
-<div class="container my-5 pt-5" id="explore">
-    <div class="d-flex justify-content-between align-items-end mb-5">
-        <div>
-            <h6 class="text-primary fw-bold text-uppercase ls-2">Luxury Rentals</h6>
-            <h2 class="display-5 fw-bold">Trending Villas</h2>
-        </div>
+<div class="container my-5" id="explore">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">Our Exclusive Villas</h2>
+        <p class="text-muted">Handpicked luxury stays for your perfect getaway.</p>
     </div>
 
     <div class="row g-4">
         {% for villa in villas %}
-        <div class="col-md-4">
-            <div class="villa-card card h-100">
-                <div class="card-img-container">
-                    {% if villa.Offer and villa.Offer != "" and villa.Offer != "None" %}
-                    <div class="offer-badge">
-                        <i class="bi bi-patch-check-fill me-1"></i> {{ villa.Offer }} OFF
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 border-0 shadow-sm villa-card" style="border-radius: 25px; overflow: hidden; transition: 0.3s;">
+                <div style="position: relative; height: 260px; overflow: hidden;">
+                    
+                    {% if villa.Offer and villa.Offer|string != "nan" and villa.Offer|string != "" %}
+                    <div style="position: absolute; top: 15px; left: 15px; background: #ff4d4d; color: white; padding: 6px 15px; border-radius: 50px; font-weight: bold; font-size: 0.8rem; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                        <i class="bi bi-patch-check-fill"></i> {{ villa.Offer }}
                     </div>
                     {% endif %}
-                    
-                    <img src="{{ villa.Image_URL }}" class="card-img-top" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9daa3b6af?q=80&w=1000';">
+
+                    <img src="{{ villa.Image_URL }}" class="card-img-top w-100 h-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9daa3b6af?q=80&w=1000';">
                 </div>
                 
                 <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h4 class="fw-bold mb-0 text-dark">{{ villa.Villa_Name }}</h4>
-                        <div class="text-warning small"><i class="bi bi-star-fill"></i> 4.9</div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="fw-bold m-0 text-dark">{{ villa.Villa_Name }}</h4>
+                        <span class="text-warning fw-bold"><i class="bi bi-star-fill"></i> 4.9</span>
                     </div>
-                    <p class="text-muted small mb-4"><i class="bi bi-geo-alt me-1"></i> Lonavala, MH</p>
+                    <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Lonavala, MH</p>
                     
-                    <div class="d-flex flex-wrap gap-2 mb-4">
-                        <div class="amenity-pill"><i class="bi bi-water text-primary"></i> Pool</div>
-                        <div class="amenity-pill"><i class="bi bi-snow text-info"></i> AC</div>
-                        <div class="amenity-pill"><i class="bi bi-wifi text-success"></i> Wifi</div>
+                    <div class="d-flex gap-3 mb-4 text-secondary small">
+                        <span><i class="bi bi-water text-primary"></i> Pool</span>
+                        <span><i class="bi bi-snow text-info"></i> AC</span>
+                        <span><i class="bi bi-wifi text-success"></i> Wifi</span>
                     </div>
 
-                    <div class="pt-3 border-top d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small d-block">Starting from</span>
-                            <span class="fs-4 fw-bold text-primary">₹{{ villa.Price }}<small class="text-muted fs-6 fw-normal">/night</small></span>
-                        </div>
-                        <a href="/villa/{{ villa.Villa_ID }}" class="btn btn-dark rounded-pill px-4 fw-bold">View</a>
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                        <p class="m-0 fw-bold text-primary fs-5">₹{{ villa.Price }}<small class="text-muted fw-normal fs-6">/night</small></p>
+                        <a href="/villa/{{ villa.Villa_ID }}" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">View</a>
                     </div>
                 </div>
             </div>
@@ -57,4 +53,9 @@
         {% endfor %}
     </div>
 </div>
+
+<style>
+    .villa-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important; }
+</style>
+
 {% endblock %}
