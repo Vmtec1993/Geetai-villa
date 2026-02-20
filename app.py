@@ -12,7 +12,6 @@ creds_json = os.environ.get('GOOGLE_CREDS')
 sheet = None
 enquiry_sheet = None
 
-# डेटाबेस कनेक्शन चेक
 if creds_json:
     try:
         info = json.loads(creds_json)
@@ -29,15 +28,14 @@ if creds_json:
         except:
             enquiry_sheet = sheet
     except Exception as e:
-        print(f"CRITICAL: Database Error: {e}")
+        print(f"Sheet Error: {e}")
 
-# --- Telegram Alert (Direct Method) ---
+# --- Telegram Alert (GET Method - Super Stable) ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
-        # ब्राउज़र लिंक वाला तरीका (GET Request) जो हमेशा काम करता है
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         params = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
         requests.get(url, params=params, timeout=10)
@@ -52,8 +50,7 @@ def index():
     if sheet:
         try:
             villas = sheet.get_all_records()
-        except:
-            pass
+        except: pass
     return render_template('index.html', villas=villas)
 
 @app.route('/villa/<villa_id>')
@@ -64,8 +61,7 @@ def villa_details(villa_id):
             villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
             if villa:
                 return render_template('villa_details.html', villa=villa)
-        except:
-            pass
+        except: pass
     return "Villa info unavailable", 404
 
 @app.route('/enquiry/<villa_id>', methods=['GET', 'POST'])
@@ -84,15 +80,23 @@ def enquiry(villa_id):
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
-        # Telegram Alert
-        alert_text = f"🚀 New Enquiry!\nName: {name}\nPhone: {phone}\nVilla: {villa_id}"
+        # Telegram Alert (Clean Message)
+        alert_text = (
+            f"🚀 NEW ENQUIRY!\n\n"
+            f"👤 Name: {name}\n"
+            f"📞 Phone: {phone}\n"
+            f"🏡 Villa: {villa_id}\n"
+            f"📅 Stay: {check_in} to {check_out}"
+        )
         send_telegram_alert(alert_text)
         
-        return "<h1>Thank you! Your enquiry has been sent.</h1><a href='/'>Back to Home</a>"
+        # Ab ye simple text nahi, balki success.html dikhayega
+        return render_template('success.html', name=name)
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # रेंडर पोर्ट फिक्स (Port 10000 और Host 0.0.0.0 जरूरी है)
+    # Render Port Fix
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
+    
