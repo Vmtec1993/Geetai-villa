@@ -6,7 +6,7 @@
             <div class="card border-0 shadow-lg p-4" style="border-radius: 20px; background: #ffffff;">
                 <div class="text-center mb-4">
                     <h2 class="fw-bold text-dark">Plan Your Stay</h2>
-                    <p class="text-muted">Booking for: <span class="text-primary fw-bold">{{ vill.Villa_Name }}</span></p>
+                    <p class="text-muted">Booking for: <span class="text-primary fw-bold">{{ villa.Villa_Name }}</span></p>
                 </div>
                 
                 <form action="/enquiry/{{ villa.Villa_ID }}" method="POST">
@@ -51,7 +51,7 @@
 </div>
 
 <script>
-    // आज की तारीख (2026-02-21) से पहले बुकिंग न हो सके
+    // आज की तारीख (2026-02-21) सेट करना
     const today = new Date().toISOString().split("T")[0];
     document.getElementById('check_in').min = today;
     document.getElementById('check_out').min = today;
@@ -59,7 +59,6 @@
     function setMinCheckOut() {
         let checkInVal = document.getElementById('check_in').value;
         document.getElementById('check_out').min = checkInVal;
-        // अगर चेक-आउट की तारीख चेक-इन से पहले की है, तो उसे अपडेट कर दें
         if (document.getElementById('check_out').value < checkInVal) {
             document.getElementById('check_out').value = checkInVal;
         }
