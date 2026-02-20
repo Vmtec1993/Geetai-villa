@@ -108,5 +108,8 @@ def enquiry(villa_id):
     return "Error", 500
 
 if __name__ == '__main__':
+    # Render ke liye port 10000 zaroori hai
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    # debug=False zaroori hai production ke liye
+    app.run(host="0.0.0.0", port=port)
+
