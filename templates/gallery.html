@@ -1,53 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container py-5">
-    <div class="mb-4 text-center">
-        <a href="/gallery" class="btn btn-sm btn-outline-dark rounded-pill mb-3">← Back to All Villas</a>
-        <h1 class="fw-bold">{{ villa_name }}</h1>
-        <p class="text-muted">Exclusive Photo Collection</p>
-    </div>
-
-    <div class="d-flex justify-content-center gap-2 mb-5 overflow-auto pb-2" id="filter-buttons">
-        <button class="btn btn-dark rounded-pill px-4 filter-btn" data-filter="all">All</button>
-        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="pool">Pool</button>
-        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="bedroom">Bedroom</button>
-        <button class="btn btn-outline-dark rounded-pill px-4 filter-btn" data-filter="hall">Living Area</button>
-    </div>
-
-    <div class="row g-3" id="gallery-grid">
-        {% for p in photos %}
-            {% if p.Image_Main %}
-            <div class="col-md-4 col-sm-6 photo-item all {{ p.Category | lower | trim }}">
-                <div class="rounded-4 overflow-hidden shadow-sm" style="height: 280px;">
-                    <img src="{{ p.Image_Main }}" class="w-100 h-100" style="object-fit: cover;">
-                </div>
-                <p class="text-center mt-2 small text-muted">{{ p.Category }}</p>
+<div class="container py-5 text-center">
+    <h1 class="fw-bold mb-4">Our Luxury Villa Gallery</h1>
+    <div class="row g-4 justify-content-center">
+        {% set shown_villas = [] %}
+        {% for villa in villas %}
+            {% if villa.Name not in shown_villas %}
+            <div class="col-md-6 col-lg-4">
+                <a href="/gallery/{{ villa.Name | lower | replace(' ', '') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <img src="{{ villa.display_image }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+                        <div class="card-body bg-white">
+                            <h4 class="fw-bold text-dark mb-0">{{ villa.Name }}</h4>
+                            <small class="text-warning">Click to view full photos</small>
+                        </div>
+                    </div>
+                </a>
             </div>
+            {% set _ = shown_villas.append(villa.Name) %}
             {% endif %}
         {% endfor %}
     </div>
 </div>
-
-<script>
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            // बटन का कलर बदलें
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.replace('btn-dark', 'btn-outline-dark');
-            });
-            this.classList.replace('btn-outline-dark', 'btn-dark');
-
-            const filterValue = this.getAttribute('data-filter').toLowerCase();
-            const items = document.querySelectorAll('.photo-item');
-
-            items.forEach(item => {
-                if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}
