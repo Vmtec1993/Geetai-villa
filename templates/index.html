@@ -25,7 +25,7 @@
                 {% if villa.Offer and villa.Offer|string != "nan" %}
                 <div style="position: absolute; top: 15px; left: 15px; z-index: 10;">
                     <div style="background: #ff4d4d; color: white; padding: 6px 12px; border-radius: 50px; font-weight: bold; font-size: 0.75rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                        <i class="bi bi-fire"></i> {{ villa.Offer }} OFF
+                        <i class="bi bi-fire"></i> {{ villa.Offer }}
                     </div>
                     <div class="mt-1 text-white text-center fw-bold" style="background: rgba(0,0,0,0.7); font-size: 11px; border-radius: 5px; padding: 2px 8px;">
                         Ends In: <span class="villa-timer">04:15:45</span>
@@ -36,7 +36,7 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h4 class="fw-bold m-0 text-dark">{{ villa.Villa_Name }}</h4>
-                        <span class="badge bg-light text-primary border border-primary">{{ villa.BHK }} BHK</span>
+                        <span class="badge bg-light text-primary border border-primary small">{{ villa.BHK }} BHK</span>
                     </div>
                     
                     <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger"></i> Lonavala, Maharashtra</p>
