@@ -3,89 +3,31 @@
 <div class="container py-4">
     <div class="row g-4">
         <div class="col-lg-7">
-            <div id="villaCarousel" class="carousel slide shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
+            <div id="villaCarousel" class="carousel slide shadow rounded-4 overflow-hidden" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="{{ villa.Image_Main }}" class="d-block w-100" style="height:450px; object-fit:cover;">
                     </div>
-                    {% if villa.Image_2 %}
-                    <div class="carousel-item">
-                        <img src="{{ villa.Image_2 }}" class="d-block w-100" style="height:450px; object-fit:cover;">
-                    </div>
-                    {% endif %}
-                    {% if villa.Image_3 %}
-                    <div class="carousel-item">
-                        <img src="{{ villa.Image_3 }}" class="d-block w-100" style="height:450px; object-fit:cover;">
-                    </div>
-                    {% endif %}
                 </div>
-                <button class="carousel-control-prev" data-bs-target="#villaCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
-                <button class="carousel-control-next" data-bs-target="#villaCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
             </div>
             
             <div class="mt-4">
-                <h2 class="fw-bold text-dark">{{ villa.Name }}</h2>
-                <div class="d-flex gap-2 mb-3">
-                    <span class="badge bg-primary rounded-pill px-3">{{ villa.BHK }} BHK Villa</span>
-                    <span class="badge bg-warning text-dark rounded-pill px-3">⭐ {{ villa.Rating }} / 5</span>
-                </div>
-                
+                <h2 class="fw-bold">Explore the beauty of <span style="color: #fbbf24;">{{ villa.Name }}</span></h2>
+                <p class="badge bg-info text-dark">{{ villa.BHK }} BHK</p>
                 <p class="text-muted lh-lg">{{ villa.Description }}</p>
-                
-                <hr class="my-4">
-                
-                <h5 class="fw-bold mb-3">Villa Amenities</h5>
-                <div class="row g-3">
-                    {% set items = villa.Amenities.split(',') %}
-                    {% for item in items %}
-                        <div class="col-6 col-md-4">
-                            <div class="d-flex align-items-center p-2 bg-white border rounded-3 shadow-sm">
-                                {% set clean_item = item.strip().lower() %}
-                                {% if 'wifi' in clean_item %}<i class="bi bi-wifi text-primary me-2 fs-5"></i>
-                                {% elif 'pool' in clean_item %}<i class="bi bi-water text-primary me-2 fs-5"></i>
-                                {% elif 'ac' in clean_item or 'air' in clean_item %}<i class="bi bi-snow text-primary me-2 fs-5"></i>
-                                {% elif 'tv' in clean_item %}<i class="bi bi-tv text-primary me-2 fs-5"></i>
-                                {% elif 'kitchen' in clean_item %}<i class="bi bi-egg-fried text-primary me-2 fs-5"></i>
-                                {% elif 'parking' in clean_item %}<i class="bi bi-p-circle text-primary me-2 fs-5"></i>
-                                {% elif 'fridge' in clean_item %}<i class="bi bi-box text-primary me-2 fs-5"></i>
-                                {% elif 'geyser' in clean_item %}<i class="bi bi-thermometer-half text-primary me-2 fs-5"></i>
-                                {% else %}<i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
-                                {% endif %}
-                                <span class="small fw-medium">{{ item.strip() }}</span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                <p class="fw-bold"><i class="bi bi-star text-primary"></i> Amenities: {{ villa.Amenities }}</p>
             </div>
         </div>
 
         <div class="col-lg-5">
-            <div class="card border-0 shadow-lg p-4 rounded-4 sticky-top" style="top:100px;">
-                <h6 class="text-muted mb-1">Starting Price</h6>
-                <h2 class="fw-bold text-primary mb-4">₹{{ villa.Price }} <small class="text-muted fs-6" style="font-weight: normal;">/ night</small></h2>
-                
-                <div class="d-grid gap-3">
-                    <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-dark btn-lg rounded-pill fw-bold py-3 shadow">
-                        Book Now
-                    </a>
-                    
-                    <a href="https://wa.me/918830024994?text=Hi MoreVistas, I want to book {{ villa.Name }}" 
-                       class="btn btn-outline-success btn-lg rounded-pill fw-bold py-3">
-                        <i class="bi bi-whatsapp me-2"></i>Inquiry on WhatsApp
-                    </a>
-
-                    {% if villa.Location_Link %}
-                    <a href="{{ villa.Location_Link }}" target="_blank" class="btn btn-light rounded-pill py-2 text-muted small">
-                        <i class="bi bi-geo-alt me-1 text-danger"></i> View Location Map
-                    </a>
-                    {% endif %}
+            <div class="card border-0 shadow-lg p-4 rounded-4 sticky-top" style="top:20px;">
+                <h3 class="fw-bold text-primary">₹{{ villa.Price }} <small class="text-muted fs-6">/ night</small></h3>
+                <hr>
+                <div class="mb-3">
+                    <p class="mb-1 small text-muted">Rating</p>
+                    <p class="fw-bold">⭐ {{ villa.Rating }} / 5</p>
                 </div>
-                
-                <div class="mt-4 p-3 bg-light rounded-3">
-                    <p class="small text-muted mb-0 text-center">
-                        <i class="bi bi-shield-check me-1"></i> Verified Luxury Stay by <strong>MoreVistas</strong>
-                    </p>
-                </div>
+                <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold">Book This Villa</a>
             </div>
         </div>
     </div>
