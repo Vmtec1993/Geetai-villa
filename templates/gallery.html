@@ -1,56 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="container-fluid bg-dark py-5 mb-5 shadow-sm">
-    <div class="text-center text-white">
-        <h1 class="fw-bold display-4" style="letter-spacing: 2px;">THE <span style="color: #fbbf24;">MOREVISTAS</span> GALLERY</h1>
-        <p class="lead opacity-75">Discover the Luxury of Lonavala, One Frame at a Time</p>
-        <div class="mx-auto bg-warning mt-3" style="height: 3px; width: 60px;"></div>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Exclusive Villa Gallery</h1>
+        <p class="text-muted">Select a villa to explore its luxury corners</p>
     </div>
-</div>
 
-<div class="container py-4">
-    <div class="d-flex justify-content-center flex-wrap gap-3 mb-5">
-        <button class="filter-btn active" onclick="filterGallery('all', this)">
-            <i class="bi bi-grid-fill me-2"></i>All Moments
-        </button>
-        <button class="filter-btn" onclick="filterGallery('pool', this)">
-            <i class="bi bi-water me-2"></i>Private Pools
-        </button>
-        <button class="filter-btn" onclick="filterGallery('bedroom', this)">
-            <i class="bi bi-door-closed me-2"></i>Royal Suites
-        </button>
-        <button class="filter-btn" onclick="filterGallery('hall', this)">
-            <i class="bi bi-tv me-2"></i>Living Spaces
-        </button>
-        <button class="filter-btn" onclick="filterGallery('garden', this)">
-            <i class="bi bi-tree me-2"></i>Gardens
-        </button>
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6 text-center">
+            <label class="fw-bold mb-2">1. Choose Villa:</label>
+            <select id="villa-selector" class="form-select form-select-lg rounded-pill shadow-sm border-primary" onchange="applyFilters()">
+                <option value="all">-- All Villas --</option>
+                {% set unique_villas = [] %}
+                {% for villa in villas %}
+                    {% if villa.Name not in unique_villas %}
+                        <option value="{{ villa.Name | lower | replace(' ', '') }}">{{ villa.Name }}</option>
+                        {% set _ = unique_villas.append(villa.Name) %}
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-5">
+        <button class="f-btn active" data-cat="all" onclick="setCategory('all', this)">All Area</button>
+        <button class="f-btn" data-cat="pool" onclick="setCategory('pool', this)">Pool</button>
+        <button class="f-btn" data-cat="bedroom" onclick="setCategory('bedroom', this)">Bedroom</button>
+        <button class="f-btn" data-cat="hall" onclick="setCategory('hall', this)">Hall/Living</button>
     </div>
 
     <div class="row g-4" id="gallery-grid">
         {% for villa in villas %}
-            {# Check for multiple images if they exist in your sheet #}
             {% for key in ['Image_Main', 'Image_2', 'Image_3'] %}
                 {% if villa[key] %}
-                <div class="col-lg-4 col-md-6 gallery-item {{ villa.Category | lower | replace(' ', '') }}">
-                    <div class="gallery-card shadow" onclick="openFullScreen('{{ villa[key] }}')">
-                        <img src="{{ villa[key] }}" class="img-fluid" alt="{{ villa.Name }}">
-                        
-                        <div class="villa-badge">
-                            <i class="bi bi-geo-alt-fill me-1"></i> {{ villa.Name }}
-                        </div>
-
-                        <div class="category-label">
-                            {{ villa.Category }}
-                        </div>
-
-                        <div class="gallery-overlay">
-                            <div class="text-center">
-                                <i class="bi bi-zoom-in text-white display-4"></i>
-                                <p class="text-white mt-2 fw-bold">Tap to View</p>
-                            </div>
-                        </div>
+                <div class="col-lg-4 col-md-6 gallery-item" 
+                     data-villa="{{ villa.Name | lower | replace(' ', '') }}" 
+                     data-category="{{ villa.Category | lower | replace(' ', '') }}">
+                    
+                    <div class="premium-box shadow-sm" onclick="openFullScreen('{{ villa[key] }}')">
+                        <img src="{{ villa[key] }}" class="img-fluid">
+                        <div class="villa-badge">{{ villa.Name }}</div>
+                        <div class="cat-tag">{{ villa.Category }}</div>
                     </div>
                 </div>
                 {% endif %}
@@ -65,81 +55,42 @@
 </div>
 
 <style>
-    /* Filter Button Styling */
-    .filter-btn {
-        background: #fff; border: 2px solid #0f172a; color: #0f172a;
-        padding: 10px 25px; border-radius: 50px; font-weight: 600;
-        transition: 0.3s all ease; cursor: pointer;
-    }
-    .filter-btn:hover, .filter-btn.active {
-        background: #0f172a; color: #fbbf24; box-shadow: 0 5px 15px rgba(15,23,42,0.3);
-    }
+    .f-btn { background: white; border: 1px solid #ddd; padding: 8px 20px; border-radius: 50px; transition: 0.3s; }
+    .f-btn.active { background: #0f172a; color: #fbbf24; border-color: #0f172a; }
+    
+    .premium-box { position: relative; border-radius: 15px; overflow: hidden; height: 300px; cursor: pointer; border: 3px solid white; }
+    .premium-box img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .villa-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 12px; border-radius: 5px; font-size: 12px; }
+    .cat-tag { position: absolute; bottom: 10px; right: 10px; background: #fbbf24; color: black; padding: 2px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; }
 
-    /* Gallery Card Styling */
-    .gallery-card {
-        position: relative; border-radius: 20px; overflow: hidden; height: 350px;
-        cursor: pointer; border: 5px solid white;
-    }
-    .gallery-card img {
-        width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease;
-    }
-    .gallery-card:hover img {
-        transform: scale(1.1); filter: blur(2px) brightness(0.7);
-    }
-
-    /* Villa Name Badge */
-    .villa-badge {
-        position: absolute; top: 15px; left: 15px;
-        background: rgba(15, 23, 42, 0.85); color: #fbbf24;
-        padding: 6px 15px; border-radius: 10px; font-size: 13px;
-        font-weight: bold; z-index: 5; backdrop-filter: blur(5px);
-    }
-
-    /* Category Label */
-    .category-label {
-        position: absolute; bottom: 15px; right: 15px;
-        background: #fbbf24; color: #000;
-        padding: 4px 12px; border-radius: 50px; font-size: 11px;
-        font-weight: 800; text-transform: uppercase; z-index: 5;
-    }
-
-    /* Overlay */
-    .gallery-overlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.4); display: flex; align-items: center;
-        justify-content: center; opacity: 0; transition: 0.4s;
-    }
-    .gallery-card:hover .gallery-overlay { opacity: 1; }
-
-    /* Modal Styling */
-    .fullscreen-modal {
-        display: none; position: fixed; z-index: 10000; left: 0; top: 0;
-        width: 100%; height: 100%; background: rgba(0,0,0,0.95);
-        align-items: center; justify-content: center;
-    }
-    .modal-content { max-width: 90%; max-height: 85%; border-radius: 10px; border: 4px solid white; animation: zoom 0.3s ease; }
-    @keyframes zoom { from {transform: scale(0.8)} to {transform: scale(1)} }
-    .close-btn { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 50px; cursor: pointer; font-weight: bold; }
-
-    /* Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .gallery-item { animation: fadeIn 0.6s ease forwards; }
+    .fullscreen-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+    .modal-content { max-width: 90%; max-height: 90%; }
+    .close-btn { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; cursor: pointer; }
 </style>
 
 <script>
-    function filterGallery(category, btn) {
-        // Change button styles
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    let currentCategory = 'all';
 
+    function setCategory(cat, btn) {
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = cat;
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const selectedVilla = document.getElementById('villa-selector').value;
         const items = document.querySelectorAll('.gallery-item');
-        const cleanCategory = category.toLowerCase().replace(/\s/g, '');
 
         items.forEach(item => {
-            if (cleanCategory === 'all' || item.classList.contains(cleanCategory)) {
+            const itemVilla = item.getAttribute('data-villa');
+            const itemCat = item.getAttribute('data-category');
+
+            const villaMatch = (selectedVilla === 'all' || itemVilla === selectedVilla);
+            const catMatch = (currentCategory === 'all' || itemCat.includes(currentCategory));
+
+            if (villaMatch && catMatch) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
@@ -150,18 +101,9 @@
     function openFullScreen(src) {
         document.getElementById("fullImg").src = src;
         document.getElementById("fullScreenModal").style.display = "flex";
-        document.body.style.overflow = "hidden"; // Stop scrolling
     }
-
     function closeFullScreen() {
         document.getElementById("fullScreenModal").style.display = "none";
-        document.body.style.overflow = "auto"; // Start scrolling
     }
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") closeFullScreen();
-    });
 </script>
-
 {% endblock %}
