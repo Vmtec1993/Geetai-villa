@@ -30,17 +30,16 @@ if creds_json:
     except Exception as e:
         print(f"Sheet Error: {e}")
 
-# --- Telegram Alert (GET Method - Super Stable) ---
+# --- Telegram Alert ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        params = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
+        params = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
         requests.get(url, params=params, timeout=10)
-    except Exception as e:
-        print(f"Telegram Error: {e}")
+    except: pass
 
 # --- Routes ---
 
@@ -62,7 +61,7 @@ def villa_details(villa_id):
             if villa:
                 return render_template('villa_details.html', villa=villa)
         except: pass
-    return "Villa info unavailable", 404
+    return "Villa not found", 404
 
 @app.route('/enquiry/<villa_id>', methods=['GET', 'POST'])
 def enquiry(villa_id):
@@ -74,29 +73,19 @@ def enquiry(villa_id):
         guests = request.form.get('guests')
         message = request.form.get('message')
 
-        # Google Sheet Update
         if enquiry_sheet:
             try:
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
-        # Telegram Alert (Clean Message)
-        alert_text = (
-            f"🚀 NEW ENQUIRY!\n\n"
-            f"👤 Name: {name}\n"
-            f"📞 Phone: {phone}\n"
-            f"🏡 Villa: {villa_id}\n"
-            f"📅 Stay: {check_in} to {check_out}"
-        )
+        alert_text = f"🚀 *New MoreVistas Booking!*\n\n👤 *Name:* {name}\n📞 *Phone:* {phone}\n🏡 *Villa:* {villa_id}"
         send_telegram_alert(alert_text)
         
-        # Ab ye simple text nahi, balki success.html dikhayega
         return render_template('success.html', name=name)
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # Render Port Fix
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
     
