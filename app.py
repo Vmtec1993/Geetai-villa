@@ -30,20 +30,27 @@ if creds_json:
     except Exception as e:
         print(f"Sheet Error: {e}")
 
-# --- Telegram Alert (FIXED) ---
+# --- Telegram Alert (Full Fix) ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        # यहाँ JSON का इस्तेमाल करना जरूरी है
-        payload = {"chat_id": str(TELEGRAM_CHAT_ID), "text": message, "parse_mode": "Markdown"}
-        response = requests.post(url, json=payload, timeout=15)
-        print(f"DEBUG: Telegram Response: {response.status_code} - {response.text}")
+        payload = {
+            "chat_id": str(TELEGRAM_CHAT_ID),
+            "text": message,
+            "parse_mode": "Markdown"
+        }
+        # Headers जोड़ना ताकि कनेक्शन पक्का हो जाए
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(url, json=payload, headers=headers, timeout=15)
+        
+        # Render के Logs में देखने के लिए
+        print(f"TELEGRAM DEBUG: {response.status_code} - {response.text}")
         return response.status_code == 200
     except Exception as e:
-        print(f"DEBUG: Telegram Error: {e}")
+        print(f"TELEGRAM ERROR: {e}")
         return False
 
 # --- Routes ---
@@ -53,7 +60,7 @@ def index():
     if sheet:
         villas = sheet.get_all_records()
         return render_template('index.html', villas=villas)
-    return "Database Error", 500
+    return "Database Connection Error", 500
 
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
@@ -74,26 +81,28 @@ def enquiry(villa_id):
         guests = request.form.get('guests')
         message = request.form.get('message')
 
+        # Google Sheet में डाटा डालना
         if enquiry_sheet:
             try:
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
+        # टेलीग्राम अलर्ट भेजना
         alert_text = (
-            f"🚀 *NEW BOOKING ENQUIRY!*\n\n"
-            f"🏡 *Villa ID:* {villa_id}\n"
-            f"👤 *Guest:* {name}\n"
-            f"📞 *WhatsApp:* {phone}\n"
-            f"📅 *Dates:* {check_in} to {check_out}\n"
+            f"🏡 *NEW ENQUIRY RECEIVED!*\n\n"
+            f"📍 *Villa:* {villa_id}\n"
+            f"👤 *Name:* {name}\n"
+            f"📞 *Phone:* {phone}\n"
+            f"📅 *Stay:* {check_in} to {check_out}\n"
             f"👨‍👩‍👧 *Guests:* {guests}\n"
-            f"💬 *Message:* {message}"
+            f"💬 *Note:* {message}"
         )
         send_telegram_alert(alert_text)
+        
         return render_template('success.html')
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # Render के लिए पोर्ट फिक्स
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
