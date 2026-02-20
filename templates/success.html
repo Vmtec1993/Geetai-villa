@@ -1,33 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7 text-center">
-            <div class="card shadow-lg border-0 p-5" style="border-radius: 25px;">
-                <div class="mb-4">
-                    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
-                </div>
-                
-                <h1 class="fw-bold text-dark mb-3">Enquiry Sent Successfully!</h1>
-                <p class="lead text-muted mb-4">
-                    Thank you for choosing <strong>MoreVistas</strong>. We have received your request and our team will contact you shortly to confirm your booking.
-                </p>
-                
-                <div class="bg-light p-4 rounded-4 mb-4">
-                    <h6 class="fw-bold mb-2">What happens next?</h6>
-                    <p class="small text-muted mb-0">Our manager will check availability and message you on WhatsApp within 30 minutes.</p>
-                </div>
-
-                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                    <a href="/" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">
-                        <i class="bi bi-house-door me-2"></i>Back to Home
-                    </a>
-                    <a href="https://wa.me/918830024994" class="btn btn-outline-success btn-lg rounded-pill px-5 fw-bold">
-                        <i class="bi bi-whatsapp me-2"></i>Chat Now
-                    </a>
-                </div>
-            </div>
+<div class="container my-5 text-center">
+    <div class="card shadow-lg border-0 p-5 mx-auto" style="border-radius: 25px; max-width: 600px;">
+        <i class="bi bi-check-circle-fill text-success mb-4" style="font-size: 5rem;"></i>
+        <h1 class="fw-bold text-dark mb-3">Enquiry Sent!</h1>
+        <p class="lead text-muted mb-4">
+            Thank you for choosing <strong>MoreVistas</strong>. We have received your request and will contact you shortly.
+        </p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="/" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">Back to Home</a>
         </div>
     </div>
 </div>
