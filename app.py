@@ -37,12 +37,21 @@ TELEGRAM_CHAT_ID = "6746178673"
 def send_telegram_alert(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        # यहाँ 'data' की जगह 'json' किया है, यही आपकी नोटिफिकेशन की समस्या थी
-        payload = {"chat_id": str(TELEGRAM_CHAT_ID), "text": message, "parse_mode": "Markdown"}
-        response = requests.post(url, json=payload, timeout=10)
-        print(f"Telegram Log: {response.status_code}") # रेंडर लॉग्स में देखने के लिए
+        # यहाँ JSON का इस्तेमाल करना जरूरी है
+        payload = {
+            "chat_id": str(TELEGRAM_CHAT_ID),
+            "text": message,
+            "parse_mode": "Markdown"
+        }
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(url, json=payload, headers=headers, timeout=15)
+        
+        # Render के Logs में देखने के लिए
+        print(f"TELEGRAM DEBUG: {response.status_code} - {response.text}")
+        return response.status_code == 200
     except Exception as e:
-        print(f"Telegram Error: {e}")
+        print(f"TELEGRAM ERROR: {e}")
+        return False
 
 # --- Routes ---
 
@@ -57,6 +66,7 @@ def index():
 def villa_details(villa_id):
     if sheet:
         villas = sheet.get_all_records()
+        # आपकी शीट के 'Villa_ID' कॉलम से मैच करना
         villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
         if villa:
             return render_template('villa_details.html', villa=villa)
@@ -77,14 +87,24 @@ def enquiry(villa_id):
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
-        alert_text = f"🔔 *New Enquiry!*\n🏡 *Villa:* {villa_id}\n👤 *Name:* {name}\n📞 *Phone:* {phone}\n📅 *Stay:* {check_in} to {check_out}"
+        alert_text = (
+            f"🔔 *NEW ENQUIRY RECEIVED!*\n\n"
+            f"🏡 *Villa:* {villa_id}\n"
+            f"👤 *Name:* {name}\n"
+            f"📞 *Phone:* {phone}\n"
+            f"📅 *Stay:* {check_in} to {check_out}\n"
+            f"👨‍👩‍👧 *Guests:* {guests}\n"
+            f"💬 *Note:* {message}"
+        )
         send_telegram_alert(alert_text)
+        
+        # यहाँ 'success.html' रेंडर होगा
         return render_template('success.html')
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # रेंडर के लिए पोर्ट को 5000 की जगह dynamic बनाया गया है
+    # Render के लिए पोर्ट फिक्स
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     
