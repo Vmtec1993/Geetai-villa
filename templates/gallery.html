@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5">MoreVistas Gallery</h1>
+        <p class="text-muted">A visual journey through our luxury stays in Lonavala</p>
+        <div class="mx-auto bg-primary" style="height: 3px; width: 60px;"></div>
+    </div>
+
+    <div class="row g-4">
+        {% for villa in villas %}
+            <div class="col-md-4 col-sm-6">
+                <div class="gallery-card shadow-sm rounded-4 overflow-hidden position-relative">
+                    <img src="{{ villa.Image_Main }}" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
+                    <div class="gallery-overlay">
+                        <div class="text-center text-white p-3">
+                            <h5 class="fw-bold mb-0">{{ villa.Name }}</h5>
+                            <small>Main View</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if villa.Image_2 %}
+            <div class="col-md-4 col-sm-6">
+                <div class="gallery-card shadow-sm rounded-4 overflow-hidden position-relative">
+                    <img src="{{ villa.Image_2 }}" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
+                    <div class="gallery-overlay">
+                        <div class="text-center text-white p-3">
+                            <h5 class="fw-bold mb-0">{{ villa.Name }}</h5>
+                            <small>Interior / Pool</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if villa.Image_3 %}
+            <div class="col-md-4 col-sm-6">
+                <div class="gallery-card shadow-sm rounded-4 overflow-hidden position-relative">
+                    <img src="{{ villa.Image_3 }}" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
+                    <div class="gallery-overlay">
+                        <div class="text-center text-white p-3">
+                            <h5 class="fw-bold mb-0">{{ villa.Name }}</h5>
+                            <small>Bedroom / Balcony</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .gallery-card { transition: all 0.4s ease; cursor: zoom-in; }
+    .gallery-card:hover { transform: translateY(-10px); }
+    .gallery-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.6); display: flex; align-items: center;
+        justify-content: center; opacity: 0; transition: 0.3s;
+    }
+    .gallery-card:hover .gallery-overlay { opacity: 1; }
+</style>
+{% endblock %}
