@@ -100,6 +100,8 @@ def enquiry(villa_id):
     return "Error", 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+    # Render environment variable ko prioritze karein
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
     
