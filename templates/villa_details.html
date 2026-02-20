@@ -16,10 +16,15 @@
     <div class="mt-4 px-2">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h2 class="fw-bold m-0">{{ villa.Villa_Name }}</h2>
-            <div class="text-danger fw-bold small border border-danger px-2 py-1 rounded">
-                <i class="bi bi-clock-history"></i> Ends: <span id="detail-timer">02:59:59</span>
+            
+            {% if villa.Offer_End %}
+            <div class="text-danger fw-bold small border border-danger px-2 py-1 rounded shadow-sm bg-light">
+                <i class="bi bi-clock-history"></i> Ends: 
+                <span id="sheet-timer" data-expire="{{ villa.Offer_End }}">Loading...</span>
             </div>
+            {% endif %}
         </div>
+
         <span class="badge bg-primary mb-3">{{ villa.BHK }} BHK Villa</span>
         <p class="text-muted">{{ villa.Description }}</p>
         
@@ -37,11 +42,41 @@
 </div>
 
 <script>
-    let dTime = 10800; // 3 hours timer
-    setInterval(() => {
-        let h = Math.floor(dTime/3600), m = Math.floor((dTime%3600)/60), s = dTime%60;
-        document.getElementById('detail-timer').innerText = `${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-        dTime--;
-    }, 1000);
+    function startSheetTimer() {
+        const timerElement = document.getElementById('sheet-timer');
+        if (!timerElement) return;
+
+        const expireDateStr = timerElement.getAttribute('data-expire'); 
+        const countTo = new Date(expireDateStr).getTime();
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const diff = countTo - now;
+
+            if (isNaN(countTo)) {
+                timerElement.innerHTML = "Invalid Date";
+                clearInterval(x);
+                return;
+            }
+
+            if (diff < 0) {
+                clearInterval(x);
+                timerElement.innerHTML = "OFFER EXPIRED";
+                return;
+            }
+
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            timerElement.innerHTML = 
+                (h < 10 ? "0" + h : h) + "h " + 
+                (m < 10 ? "0" + m : m) + "m " + 
+                (s < 10 ? "0" + s : s) + "s";
+        }, 1000);
+    }
+    
+    // Page load hote hi start karein
+    document.addEventListener('DOMContentLoaded', startSheetTimer);
 </script>
 {% endblock %}
