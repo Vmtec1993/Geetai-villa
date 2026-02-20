@@ -61,6 +61,7 @@ def villa_details(villa_id):
     return "Villa info not found", 404
 
 # --- YE RHA MISSING ENQUIRY ROUTE (FIXED) ---
+# app.py के enquiry वाले हिस्से में इसे बदलें
 @app.route('/enquiry/<villa_id>', methods=['GET', 'POST'])
 def enquiry(villa_id):
     if sheet:
@@ -68,24 +69,27 @@ def enquiry(villa_id):
         villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
         
         if request.method == 'POST':
+            # फॉर्म से डेटा लेना
             name = request.form.get('name')
             phone = request.form.get('phone')
             check_in = request.form.get('check_in')
             check_out = request.form.get('check_out')
             guests = request.form.get('guests')
-            
-            # Google Sheet mein data save karna
-            if enquiry_sheet:
-                enquiry_sheet.append_row([villa_id, villa.get('Villa_Name', 'Unknown'), name, phone, check_in, check_out, guests])
+            msg = request.form.get('message', '')
 
-            # Telegram Alert
-            alert_text = f"🚀 *New Booking Request!*\n\n🏡 *Villa:* {villa.get('Villa_Name')}\n👤 *Guest:* {name}\n📞 *Phone:* {phone}\n📅 *Dates:* {check_in} to {check_out}"
-            send_telegram_alert(alert_text)
+            # गूगल शीट में सेव करना
+            if enquiry_sheet:
+                enquiry_sheet.append_row([villa_id, villa.get('Villa_Name'), name, phone, check_in, check_out, guests, msg])
+
+            # टेलीग्राम पर अलर्ट भेजना
+            alert = f"🚀 *New Enquiry!*\n🏡 *Villa:* {villa.get('Villa_Name')}\n👤 *Name:* {name}\n📞 *Phone:* {phone}\n📅 *Check-in:* {check_in}"
+            send_telegram_alert(alert)
             
-            return render_template('success.html', name=name)
+            return "<h1>Enquiry Sent Successfully! We will contact you soon.</h1>" # या success.html
 
         return render_template('enquiry.html', villa=villa)
-    return "Something went wrong", 500
+    return "Error", 500
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
