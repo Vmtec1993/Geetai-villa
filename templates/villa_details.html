@@ -6,14 +6,25 @@
             <div class="carousel-item active">
                 <img src="{{ villa.Image_URL }}" class="d-block w-100" style="height: 400px; object-fit: cover;">
             </div>
+            {% if villa.Image_URL_2 %}
+            <div class="carousel-item">
+                <img src="{{ villa.Image_URL_2 }}" class="d-block w-100" style="height: 400px; object-fit: cover;">
+            </div>
+            {% endif %}
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#villaSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#villaSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
 
     <div class="mt-4 px-2">
         <h2 class="fw-bold">{{ villa.Villa_Name }}</h2>
         <span class="badge bg-primary mb-3">{{ villa.BHK }} BHK Villa</span>
         
-        <p class="text-muted">{{ villa.Description or "Experience the ultimate luxury stay with world-class facilities." }}</p>
+        <p class="text-muted">{{ villa.Description }}</p>
         
         <div class="card border-0 bg-light p-4 my-4" style="border-radius: 15px;">
             <h5 class="fw-bold mb-3"><i class="bi bi-stars text-warning"></i> Premium Amenities</h5>
@@ -21,25 +32,19 @@
                 <div class="col-4 col-md-2">
                     <div class="p-3 bg-white rounded shadow-sm">
                         <i class="bi bi-water fs-3 text-primary"></i>
-                        <p class="small m-0 mt-2">Private Pool</p>
+                        <p class="small m-0 mt-2">Pool</p>
                     </div>
                 </div>
                 <div class="col-4 col-md-2">
                     <div class="p-3 bg-white rounded shadow-sm">
                         <i class="bi bi-snow fs-3 text-info"></i>
-                        <p class="small m-0 mt-2">Full AC</p>
+                        <p class="small m-0 mt-2">AC</p>
                     </div>
                 </div>
                 <div class="col-4 col-md-2">
                     <div class="p-3 bg-white rounded shadow-sm">
                         <i class="bi bi-wifi fs-3 text-success"></i>
-                        <p class="small m-0 mt-2">Free WiFi</p>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="p-3 bg-white rounded shadow-sm">
-                        <i class="bi bi-plug fs-3 text-dark"></i>
-                        <p class="small m-0 mt-2">Power Backup</p>
+                        <p class="small m-0 mt-2">WiFi</p>
                     </div>
                 </div>
                 <div class="col-4 col-md-2">
@@ -50,7 +55,13 @@
                 </div>
                 <div class="col-4 col-md-2">
                     <div class="p-3 bg-white rounded shadow-sm">
-                        <i class="bi bi-cup-hot fs-3 text-warning"></i>
+                        <i class="bi bi-lightning-charge fs-3 text-warning"></i>
+                        <p class="small m-0 mt-2">Backup</p>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="p-3 bg-white rounded shadow-sm">
+                        <i class="bi bi-cup-hot fs-3 text-dark"></i>
                         <p class="small m-0 mt-2">Kitchen</p>
                     </div>
                 </div>
@@ -58,7 +69,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-primary btn-lg rounded-pill fw-bold">Check Availability & Book</a>
+            <a href="/enquiry/{{ villa.Villa_ID }}" class="btn btn-primary btn-lg rounded-pill fw-bold">Book This Villa</a>
         </div>
     </div>
 </div>
