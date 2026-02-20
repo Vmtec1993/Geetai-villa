@@ -30,20 +30,20 @@ if creds_json:
     except Exception as e:
         print(f"Sheet Error: {e}")
 
-# --- Telegram Alert (Direct Method) ---
+# --- Telegram Alert (Direct Link Method - Fixed) ---
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
 def send_telegram_alert(message):
     try:
-        # ब्राउज़र वाले लिंक की तरह ही काम करेगा
+        # ब्राउज़र लिंक वाला तरीका (GET Request)
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {
+        params = {
             "chat_id": TELEGRAM_CHAT_ID,
             "text": message
         }
-        # यहाँ हम POST का इस्तेमाल कर रहे हैं जो सबसे सुरक्षित है
-        requests.post(url, json=payload, timeout=10)
+        # बिना किसी भारी ताम-झाम के सीधा मैसेज भेजना
+        requests.get(url, params=params, timeout=10)
     except Exception as e:
         print(f"Telegram Error: {e}")
 
@@ -52,23 +52,17 @@ def send_telegram_alert(message):
 @app.route('/')
 def index():
     if sheet:
-        try:
-            villas = sheet.get_all_records()
-            return render_template('index.html', villas=villas)
-        except Exception as e:
-            print(f"Index Page Error: {e}")
+        villas = sheet.get_all_records()
+        return render_template('index.html', villas=villas)
     return "Database Connection Error", 500
 
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
     if sheet:
-        try:
-            villas = sheet.get_all_records()
-            villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
-            if villa:
-                return render_template('villa_details.html', villa=villa)
-        except Exception as e:
-            print(f"Details Error: {e}")
+        villas = sheet.get_all_records()
+        villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
+        if villa:
+            return render_template('villa_details.html', villa=villa)
     return "Villa not found", 404
 
 @app.route('/enquiry/<villa_id>', methods=['GET', 'POST'])
@@ -81,22 +75,24 @@ def enquiry(villa_id):
         guests = request.form.get('guests')
         message = request.form.get('message')
 
-        # Google Sheet में डाटा डालना
+        # 1. गूगल शीट में डाटा डालना
         if enquiry_sheet:
             try:
                 enquiry_sheet.append_row([villa_id, name, phone, check_in, check_out, guests, message])
             except: pass
 
-        # टेलीग्राम नोटिफिकेशन
-        alert_text = f"New Enquiry!\nVilla: {villa_id}\nName: {name}\nPhone: {phone}"
+        # 2. टेलीग्राम मैसेज तैयार करना
+        alert_text = f"New Enquiry!\nName: {name}\nPhone: {phone}\nVilla: {villa_id}"
+        
+        # 3. मैसेज भेजना
         send_telegram_alert(alert_text)
         
-        # यहाँ सिर्फ एक मैसेज दिखाएगा अगर success.html नहीं है तो
-        return "<h1>Thank You! Your Enquiry has been sent.</h1><a href='/'>Back to Home</a>"
+        # 4. सक्सेस होने पर वापस होम पेज या मैसेज दिखाना
+        return "<h1>Enquiry Sent Successfully!</h1><a href='/'>Go Back</a>"
     
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
-    # Render के लिए पोर्ट फिक्स
+    # Render के लिए पोर्ट सेटिंग
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
