@@ -95,6 +95,8 @@ def enquiry(villa_id):
     return render_template('enquiry.html', villa_id=villa_id)
 
 if __name__ == '__main__':
+    # Render को बताने के लिए कि पोर्ट क्या है
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
         
