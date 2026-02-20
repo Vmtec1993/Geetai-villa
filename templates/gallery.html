@@ -2,30 +2,34 @@
 {% block content %}
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="fw-bold">MoreVistas Experience</h1>
+        <h1 class="fw-bold display-5">MoreVistas Experience</h1>
         <p class="text-muted">Explore our luxury villas by categories</p>
         
         <div class="mt-4" id="filter-buttons">
-            <button class="btn btn-outline-primary active rounded-pill px-4 m-1" onclick="filterGallery('all')">All</button>
-            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Pool')">Pool</button>
-            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Bedroom')">Bedrooms</button>
-            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Hall')">Living Area</button>
-            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Kitchen')">Kitchen</button>
+            <button class="btn btn-outline-primary active rounded-pill px-4 m-1" onclick="filterGallery('all', this)">All</button>
+            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Pool', this)">Pool</button>
+            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Bedroom', this)">Bedrooms</button>
+            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Hall', this)">Living Area</button>
+            <button class="btn btn-outline-primary rounded-pill px-4 m-1" onclick="filterGallery('Garden', this)">Garden</button>
         </div>
     </div>
 
     <div class="row g-4" id="gallery-grid">
         {% for villa in villas %}
+            {# Check for Image_Main, Image_2, Image_3 #}
             {% for key in ['Image_Main', 'Image_2', 'Image_3'] %}
                 {% if villa[key] %}
-                <div class="col-md-4 col-sm-6 gallery-item {{ villa.Category }}">
+                <div class="col-md-4 col-sm-6 gallery-item all {{ villa.Category | replace(' ', '') | lower }}">
                     <div class="gallery-card shadow-sm rounded-4 overflow-hidden position-relative" onclick="openFullScreen('{{ villa[key] }}')">
                         <img src="{{ villa[key] }}" class="img-fluid w-100" style="height: 280px; object-fit: cover;">
+                        {% if villa.Category %}
                         <div class="gallery-tag">{{ villa.Category }}</div>
+                        {% endif %}
                         <div class="gallery-overlay">
                             <i class="bi bi-zoom-in text-white fs-2"></i>
                         </div>
                     </div>
+                    <p class="mt-2 mb-0 fw-bold text-center small text-dark">{{ villa.Name }}</p>
                 </div>
                 {% endif %}
             {% endfor %}
@@ -41,42 +45,51 @@
 <style>
     .gallery-tag {
         position: absolute; bottom: 15px; left: 15px;
-        background: rgba(255, 255, 255, 0.9); color: #0f172a;
-        padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700;
+        background: rgba(251, 191, 36, 0.9); color: #000;
+        padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700;
+        z-index: 2;
     }
-    .gallery-item { transition: 0.4s; }
-    .gallery-card:hover .gallery-overlay { opacity: 1; }
+    .gallery-card { transition: 0.4s; cursor: pointer; }
+    .gallery-card:hover { transform: scale(1.02); }
     .gallery-overlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 23, 42, 0.5); display: flex; align-items: center;
-        justify-content: center; opacity: 0; transition: 0.3s; cursor: pointer;
+        background: rgba(15, 23, 42, 0.4); display: flex; align-items: center;
+        justify-content: center; opacity: 0; transition: 0.3s;
     }
+    .gallery-card:hover .gallery-overlay { opacity: 1; }
     
-    /* Fullscreen Modal Styles */
     .fullscreen-modal {
         display: none; position: fixed; z-index: 9999; left: 0; top: 0;
-        width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+        width: 100%; height: 100%; background: rgba(0,0,0,0.95);
         align-items: center; justify-content: center;
     }
-    .modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; animation: zoom 0.3s; }
-    @keyframes zoom { from {transform:scale(0.8)} to {transform:scale(1)} }
+    .modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
     .close-btn { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; cursor: pointer; }
 </style>
 
 <script>
-    function filterGallery(category) {
+    function filterGallery(category, btn) {
         let items = document.getElementsByClassName('gallery-item');
         let buttons = document.querySelectorAll('#filter-buttons .btn');
         
-        // Active button style
-        buttons.forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        // Active button UI change
+        buttons.forEach(b => b.classList.remove('active', 'btn-primary'));
+        buttons.forEach(b => b.classList.add('btn-outline-primary'));
+        btn.classList.add('active', 'btn-primary');
+        btn.classList.remove('btn-outline-primary');
+
+        let searchCat = category.replace(/\s/g, '').toLowerCase();
 
         for (let item of items) {
-            if (category === 'all' || item.classList.contains(category)) {
+            if (searchCat === 'all') {
                 item.style.display = 'block';
             } else {
-                item.style.display = 'none';
+                // Check if the item has the class name we are looking for
+                if (item.classList.contains(searchCat)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
             }
         }
     }
