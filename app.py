@@ -17,11 +17,11 @@ if creds_json:
     client = gspread.authorize(creds)
     
     # आपकी असली Sheet ID यहाँ सेट कर दी गई है
-    SHEET_ID = "1wXlMNAUuW2Fr4L05ahxvUNn0yvMedcVosTRJzZf_1ao" 
-    
-    main_spreadsheet = client.open_by_key(SHEET_ID)
-    sheet = main_spreadsheet.sheet1  # पहला टैब (Villas)
-    
+    # पुराने नाम "Villas_Data" की जगह ID का उपयोग करें
+SHEET_ID = "1wXlMNAUuW2Fr4L05ahxvUNn0yvMedcVosTRJzZf_1ao"
+main_spreadsheet = client.open_by_key(SHEET_ID)
+sheet = main_spreadsheet.sheet1
+   
     try:
         # अगर आपकी शीट में दूसरा टैब है तो वहां डेटा जाएगा
         enquiry_sheet = main_spreadsheet.get_worksheet(1) 
