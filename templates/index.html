@@ -15,7 +15,8 @@
         text-transform: uppercase;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .villa-card:hover { transform: translateY(-5px); transition: 0.3s; }
+    .villa-card { transition: transform 0.3s ease; }
+    .villa-card:hover { transform: translateY(-5px); }
 </style>
 
 <header class="py-5 text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; padding: 100px 0 !important;">
@@ -65,11 +66,11 @@
                     <div class="d-flex align-items-center justify-content-between pt-3 border-top">
                         <div>
                             {% set original = villa.get('Original_Price', 0) | float %}
-                            {% set current = villa.get('Price', villa.get('price', 0)) | float %}
+                            {% set current = (villa.get('Price') or villa.get('price') or 0) | float %}
                             
                             {% if original > current and current > 0 %}
                                 <div class="d-flex align-items-center mb-0" style="line-height: 1;">
-                                    <small class="text-muted text-decoration-line-through" style="font-size: 0.8rem;">₹{{ original|int }}</small>
+                                    <small class="text-muted text-decoration-line-through" style="font-size: 0.8rem;">₹{{ original | int }}</small>
                                     
                                     {% set disc_perc = (((original - current) / original) * 100) | round | int %}
                                     <span class="discount-badge-mini">{{ disc_perc }}% OFF</span>
@@ -77,7 +78,7 @@
                             {% endif %}
                             
                             <h5 class="m-0 fw-bold text-primary">
-                                ₹{{ current|int }}<small class="text-muted fw-normal fs-6">/night</small>
+                                ₹{{ current | int }}<small class="text-muted fw-normal fs-6">/night</small>
                             </h5>
                         </div>
                         <a href="/villa/{{ villa.get('Villa_ID', '') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">View Villa</a>
@@ -92,23 +93,11 @@
 <div class="bg-light py-5">
     <div class="container text-center">
         <h2 class="fw-bold mb-5">Why Stay With MoreVistas?</h2>
-        <div class="row g-4 text-center">
-            <div class="col-md-3">
-                <i class="bi bi-star-fill text-warning fs-1"></i>
-                <h6 class="fw-bold mt-2">Curated Luxury</h6>
-            </div>
-            <div class="col-md-3">
-                <i class="bi bi-headset text-primary fs-1"></i>
-                <h6 class="fw-bold mt-2">24/7 Support</h6>
-            </div>
-            <div class="col-md-3">
-                <i class="bi bi-patch-check-fill text-success fs-1"></i>
-                <h6 class="fw-bold mt-2">Verified Stays</h6>
-            </div>
-            <div class="col-md-3">
-                <i class="bi bi-tags-fill text-info fs-1"></i>
-                <h6 class="fw-bold mt-2">Best Price</h6>
-            </div>
+        <div class="row g-4">
+            <div class="col-md-3"><i class="bi bi-star-fill text-warning fs-1"></i><h6 class="fw-bold mt-2">Curated Luxury</h6></div>
+            <div class="col-md-3"><i class="bi bi-headset text-primary fs-1"></i><h6 class="fw-bold mt-2">24/7 Support</h6></div>
+            <div class="col-md-3"><i class="bi bi-patch-check-fill text-success fs-1"></i><h6 class="fw-bold mt-2">Verified Stays</h6></div>
+            <div class="col-md-3"><i class="bi bi-tags-fill text-info fs-1"></i><h6 class="fw-bold mt-2">Best Price</h6></div>
         </div>
     </div>
 </div>
