@@ -9,70 +9,27 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fbfbfb; }
         
-        /* 🔥 LOGO SIZE INCREASED HERE */
+        /* 🔥 LOGO ZOOM SETTINGS */
         .brand-logo { 
-            height: 70px !important; /* साइज 45 से बढ़ाकर 70 कर दिया */
+            height: 120px !important; /* हाइट को बहुत बढ़ा दिया है */
             width: auto; 
-            margin-right: -5px; /* टेक्स्ट के करीब लाने के लिए */
-            transition: transform 0.3s ease;
+            margin-top: -15px; /* ऊपर की खाली जगह कम करने के लिए */
+            margin-bottom: -15px; /* नीचे की खाली जगह कम करने के लिए */
+            margin-right: -10px; /* टेक्स्ट के करीब लाने के लिए */
+            object-fit: contain;
+            transform: scale(1.8); /* लोगो को अंदर से और बड़ा दिखाने के लिए */
+            transform-origin: center;
         }
-        .brand-logo:hover { transform: scale(1.05); }
 
-        .nav-brand-text { font-weight: 800; font-size: 1.6rem; color: #1a1a1a; letter-spacing: -1px; text-decoration: none; }
+        .nav-brand-text { 
+            font-weight: 800; 
+            font-size: 1.8rem; /* टेक्स्ट भी थोड़ा बड़ा किया */
+            color: #1a1a1a; 
+            letter-spacing: -1px; 
+            text-decoration: none;
+            margin-left: 25px; /* लोगो स्केल होने की वजह से थोड़ी जगह छोड़ी */
+        }
         
-        /* Running Offer Bar */
         .promo-bar { background: #ff4d4d; color: white; padding: 8px 0; font-weight: 600; overflow: hidden; }
-
-        /* Sidebar Customization */
-        .offcanvas { width: 280px !important; }
-        .nav-link:hover { color: #007bff !important; }
-    </style>
-</head>
-<body>
-
-    <div class="promo-bar">
-        <marquee scrollamount="8" onmouseover="this.stop();" onmouseout="this.start();">
-            🔥 SPECIAL 2026 OFFER: Use Code 'MOREVISTAS' for 20% OFF | Weekday Special Live Now! | Offer ends in: <span id="timer">04:59:59</span> 🔥
-        </marquee>
-    </div>
-
-    <nav class="navbar navbar-light bg-white sticky-top shadow-sm py-2">
-        <div class="container d-flex align-items-center justify-content-between">
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <a class="navbar-brand d-flex align-items-center mx-auto" href="/" style="margin-left: -20px !important;">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MoreVistas Logo" class="brand-logo">
-                <span class="nav-brand-text">More<span class="text-primary">Vistas</span></span>
-            </a>
-            
-            <div style="width: 45px;"></div> </div>
-    </nav>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title fw-bold">MoreVistas Menu</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="nav flex-column gap-3 fs-5">
-                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="/"><i class="bi bi-house-door me-2"></i> Home</a></li>
-                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="/#about-section"><i class="bi bi-info-circle me-2"></i> About Us</a></li>
-                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="https://wa.me/918830024994"><i class="bi bi-whatsapp me-2"></i> Contact Support</a></li>
-            </ul>
-        </div>
-    </div>
-
-    {% block content %}{% endblock %}
-
-    <footer class="bg-dark text-white pt-5 pb-4 mt-5">
-        <div class="container text-center">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MoreVistas" style="height: 80px; width: auto; margin-bottom: 10px;">
-            <h4 class="fw-bold mb-1">MoreVistas</h4>
-            <p class="text-secondary small mb-4">Your Trusted Partner for Luxury Stays since 2026.</p>
-            
-            <div class="d-flex justify-content-center gap-4 mb-4 fs-3">
-                <a href="https://wa.me/918830024994" class="text-success hover-zoom" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-                <a href
-                    
+        .offcanvas
+        
