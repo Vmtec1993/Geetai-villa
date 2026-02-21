@@ -4,7 +4,7 @@ import gspread
 from flask import Flask, render_template, request, redirect, url_for
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
-from datetime import datetime  # Date ke liye zaroori hai
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -22,10 +22,9 @@ if creds_json:
         
         SHEET_ID = "1wXlMNAUuW2Fr4L05ahxvUNn0yvMedcVosTRJzZf_1ao"
         main_spreadsheet = client.open_by_key(SHEET_ID)
-        sheet = main_spreadsheet.sheet1  # Villas Data Sheet
+        sheet = main_spreadsheet.sheet1  # Villas Data
         
         try:
-            # Sheet ka naam 'Enquiries' hona chahiye
             enquiry_sheet = main_spreadsheet.worksheet("Enquiries")
         except:
             enquiry_sheet = sheet
@@ -61,7 +60,12 @@ def villa_details(villa_id):
         villas = sheet.get_all_records()
         villa = next((v for v in villas if str(v.get('Villa_ID')) == str(villa_id)), None)
         if villa:
+            # --- YAHAN BADLAV KIYA HAI (Naye Columns ka data fetch karne ke liye) ---
             villa['Original_Price'] = villa.get('Original_Price', '')
+            villa['Guests'] = villa.get('Guests', '')
+            villa['Bedrooms'] = villa.get('Bedrooms', '')
+            villa['Rules'] = villa.get('Rules', '')
+            # -----------------------------------------------------------------------
             return render_template('villa_details.html', villa=villa)
     return "Villa info not found", 404
 
@@ -79,18 +83,14 @@ def enquiry(villa_id):
             guests = request.form.get('guests')
             msg = request.form.get('message', 'No message')
             
-            # Aaj ki date aur time
             today_date = datetime.now().strftime("%d-%m-%Y %H:%M")
 
             if enquiry_sheet:
                 try:
-                    # Aapke bataye gaye columns ke hisaab se sequence:
-                    # Date | Name | Phone | Check-in | Check-out | Guests | Message
                     enquiry_sheet.append_row([today_date, name, phone, check_in, check_out, guests, msg])
                 except Exception as e:
                     print(f"Append Error: {e}")
 
-            # Telegram Alert (Villa Name ke saath taaki aapko pata chale kaunsa villa hai)
             alert_text = (
                 f"🔔 *New Booking Enquiry!*\n\n"
                 f"🏡 *Villa:* {villa.get('Villa_Name')}\n"
@@ -108,8 +108,6 @@ def enquiry(villa_id):
     return "Error", 500
 
 if __name__ == '__main__':
-    # Render ke liye port 10000 zaroori hai
     port = int(os.environ.get("PORT", 10000))
-    # debug=False zaroori hai production ke liye
     app.run(host="0.0.0.0", port=port)
-
+    
