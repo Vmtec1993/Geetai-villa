@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fbfbfb; }
-        .logo-box { background: #007bff; color: white; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; margin-right: 10px; }
+        
+        /* Logo Styling */
+        .brand-logo { height: 45px; width: auto; margin-right: 8px; border-radius: 50%; }
         .nav-brand-text { font-weight: 800; font-size: 1.5rem; color: #1a1a1a; letter-spacing: -1px; text-decoration: none; }
         
         /* Running Offer Bar */
@@ -16,24 +18,27 @@
 
         /* Sidebar Customization */
         .offcanvas { width: 280px !important; }
+        
+        /* Smooth link color */
+        .nav-link:hover { color: #007bff !important; }
     </style>
 </head>
 <body>
 
     <div class="promo-bar">
-        <marquee scrollamount="8">
+        <marquee scrollamount="8" onmouseover="this.stop();" onmouseout="this.start();">
             🔥 SPECIAL 2026 OFFER: Use Code 'MOREVISTAS' for 20% OFF | Weekday Special Live Now! | Offer ends in: <span id="timer">04:59:59</span> 🔥
         </marquee>
     </div>
 
     <nav class="navbar navbar-light bg-white sticky-top shadow-sm py-3">
-        <div class="container">
+        <div class="container text-center">
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <a class="navbar-brand d-flex align-items-center mx-auto" href="/">
-                <div class="logo-box">M</div>
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MoreVistas Logo" class="brand-logo shadow-sm">
                 <span class="nav-brand-text">More<span class="text-primary">Vistas</span></span>
             </a>
             
@@ -48,14 +53,9 @@
         </div>
         <div class="offcanvas-body">
             <ul class="nav flex-column gap-3 fs-5">
-                <li class="nav-item"><a class="nav-link text-dark" href="/"><i class="bi bi-house-door me-2"></i> Home</a></li>
-                <li class="nav-item">
-    <a class="nav-link text-dark" href="/#about-section">
-        <i class="bi bi-info-circle me-2"></i> About Us
-    </a>
-</li>
-
-                <li class="nav-item"><a class="nav-link text-dark" href="https://wa.me/918830024994"><i class="bi bi-whatsapp me-2"></i> Contact Support</a></li>
+                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="/"><i class="bi bi-house-door me-2"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="/#about-section"><i class="bi bi-info-circle me-2"></i> About Us</a></li>
+                <li class="nav-item"><a class="nav-link text-dark fw-medium" href="https://wa.me/918830024994"><i class="bi bi-whatsapp me-2"></i> Contact Support</a></li>
             </ul>
         </div>
     </div>
@@ -64,18 +64,19 @@
 
     <footer class="bg-dark text-white pt-5 pb-4 mt-5">
         <div class="container text-center">
-            <h4 class="fw-bold mb-3">MoreVistas</h4>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="rounded-circle mb-3" style="height: 60px; filter: brightness(1.1);">
+            <h4 class="fw-bold mb-1">MoreVistas</h4>
             <p class="text-secondary small mb-4">Your Trusted Partner for Luxury Stays since 2026.</p>
             
             <div class="d-flex justify-content-center gap-4 mb-4 fs-3">
-                <a href="https://wa.me/918830024994" class="text-success" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-                <a href="#" class="text-danger" title="Instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="text-primary" title="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="https://wa.me/918830024994" class="text-success hover-zoom" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                <a href="#" class="text-danger hover-zoom" title="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-primary hover-zoom" title="Facebook"><i class="bi bi-facebook"></i></a>
             </div>
 
-            <hr class="border-secondary">
-            <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
-                © 2026 <strong>MoreVistas</strong>. All Rights Reserved.
+            <hr class="border-secondary opacity-25">
+            <p class="mb-0 text-secondary" style="font-size: 0.8rem;">
+                © 2026 <strong>MoreVistas</strong>. Built with ❤️ in Lonavala.
             </p>
         </div>
     </footer>
