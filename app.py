@@ -111,7 +111,10 @@ def enquiry(villa_id):
         return render_template('enquiry.html', villa=villa)
     return "Error", 500
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+import os
+
+if __name__ == "__main__":
+    # Render को पोर्ट बताने के लिए यह जरूरी है
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
     
