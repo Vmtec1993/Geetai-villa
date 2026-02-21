@@ -55,6 +55,16 @@ def index():
             v['Status'] = v.get('Status', 'Available')
     return render_template('index.html', villas=villas)
 
+# Naya Add Kiya: About Page
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Naya Add Kiya: Contact Page
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
     if sheet:
@@ -89,7 +99,6 @@ def enquiry(villa_id):
 
             if enquiry_sheet:
                 try:
-                    # Yahan data sheet mein ja raha hai
                     enquiry_sheet.append_row([today_date, name, phone, check_in, check_out, guests, msg])
                 except Exception as e:
                     print(f"Append Error: {e}")
@@ -109,16 +118,6 @@ def enquiry(villa_id):
 
         return render_template('enquiry.html', villa=villa)
     return "Error", 500
-
-# --- AB YAHAN SE NAYA ADD HUA HAI ---
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-# ------------------------------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
