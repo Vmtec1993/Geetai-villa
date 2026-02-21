@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container py-5">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <div class="card border-0 shadow-lg p-4" style="border-radius: 20px; background: #ffffff;">
+            <div class="card border-0 shadow-lg p-4" style="border-radius: 25px; background: #ffffff;">
                 <div class="text-center mb-4">
                     <h2 class="fw-bold text-dark">Plan Your Stay</h2>
                     <p class="text-muted">Booking for: <span class="text-primary fw-bold">{{ villa.Villa_Name }}</span></p>
@@ -38,20 +38,41 @@
 
                     <div class="mb-4">
                         <label class="form-label small fw-bold text-secondary">Special Message (Optional)</label>
-                        <textarea name="message" class="form-control rounded-3 border-light-subtle shadow-sm" rows="3" placeholder="Any specific requirements?"></textarea>
+                        <textarea name="message" class="form-control rounded-3 border-light-subtle shadow-sm" rows="2" placeholder="Any specific requirements?"></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow text-uppercase">
                         Confirm Booking Request <i class="bi bi-send ms-2"></i>
                     </button>
+                    <p class="text-center text-muted mt-2 small">
+                        <i class="bi bi-shield-check text-success"></i> No payment required now
+                    </p>
                 </form>
+
+                <div class="mt-4 border-top pt-4">
+                    <h6 class="fw-bold mb-3 text-dark">Why Book With Us?</h6>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex align-items-center bg-light p-2 rounded-3">
+                            <i class="bi bi-tags-fill text-primary me-3"></i>
+                            <span class="small fw-medium">Best rates guaranteed</span>
+                        </div>
+                        <div class="d-flex align-items-center bg-light p-2 rounded-3">
+                            <i class="bi bi-patch-check-fill text-primary me-3"></i>
+                            <span class="small fw-medium">Verified luxury properties</span>
+                        </div>
+                        <div class="d-flex align-items-center bg-light p-2 rounded-3">
+                            <i class="bi bi-headset text-primary me-3"></i>
+                            <span class="small fw-medium">24/7 Concierge support</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // आज की तारीख (2026-02-21) सेट करना
+    // आज की तारीख सेट करना
     const today = new Date().toISOString().split("T")[0];
     document.getElementById('check_in').min = today;
     document.getElementById('check_out').min = today;
