@@ -21,12 +21,17 @@
         <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
                 <h2 class="fw-bold m-0 text-dark">{{ villa.Villa_Name }}</h2>
-                <p class="text-muted small mb-0"><i class="bi bi-geo-alt-fill text-danger"></i> Lonavala, Maharashtra</p>
+                <div class="mt-1">
+                    <span class="badge {% if villa.Status == 'Available' %}bg-success{% else %}bg-warning text-dark{% endif %} rounded-pill small">
+                        {{ villa.Status | default('Available') }}
+                    </span>
+                    <small class="text-muted ms-2"><i class="bi bi-geo-alt-fill text-danger"></i> Lonavala</small>
+                </div>
             </div>
             
             {% if villa.Offer_End and villa.Offer_End|string != 'nan' and villa.Offer_End != '' %}
             <div class="text-center">
-                <div class="badge bg-danger mb-1 shadow-sm">Limited Offer</div>
+                <div class="badge bg-danger mb-1 shadow-sm">Ends Soon!</div>
                 <div class="text-danger fw-bold" style="font-size: 0.75rem;">
                     <i class="bi bi-clock-history"></i> <span id="sheet-timer" data-expire="{{ villa.Offer_End }}">Loading...</span>
                 </div>
@@ -42,7 +47,7 @@
                 <i class="bi bi-door-open text-primary"></i> {{ villa.Bedrooms | default(villa.BHK) }} Bedrooms
             </div>
             <div class="border rounded-pill px-3 py-1 bg-white small shadow-sm">
-                <i class="bi bi-droplet text-primary"></i> Private Pool
+                <i class="bi bi-droplet text-primary"></i> {{ villa.Bathrooms | default('2') }} Bathrooms
             </div>
         </div>
 
@@ -67,12 +72,19 @@
         <p class="text-muted small" style="line-height: 1.6;">{{ villa.Description }}</p>
         
         <div class="mt-4">
-            <h6 class="fw-bold mb-3"><i class="bi bi-stars text-warning"></i> Essential Amenities</h6>
-            <div class="row g-3 text-center small">
-                <div class="col-3"><div class="p-2 border rounded-3 bg-white shadow-sm"><i class="bi bi-water fs-4 text-primary"></i><div class="mt-1">Pool</div></div></div>
-                <div class="col-3"><div class="p-2 border rounded-3 bg-white shadow-sm"><i class="bi bi-snow fs-4 text-info"></i><div class="mt-1">AC</div></div></div>
-                <div class="col-3"><div class="p-2 border rounded-3 bg-white shadow-sm"><i class="bi bi-wifi fs-4 text-success"></i><div class="mt-1">WiFi</div></div></div>
-                <div class="col-3"><div class="p-2 border rounded-3 bg-white shadow-sm"><i class="bi bi-lightning-charge fs-4 text-warning"></i><div class="mt-1">Inverter</div></div></div>
+            <h6 class="fw-bold mb-3"><i class="bi bi-stars text-warning"></i> Premium Amenities</h6>
+            <div class="d-flex flex-wrap gap-2">
+                {% if villa.Amenities and villa.Amenities|string != 'nan' %}
+                    {% for item in villa.Amenities.split(',') %}
+                    <span class="badge bg-white text-dark border fw-normal p-2 px-3 shadow-sm rounded-3">
+                        <i class="bi bi-check2-circle text-success me-1"></i> {{ item.strip() }}
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    <span class="badge bg-white text-dark border fw-normal p-2 px-3 shadow-sm rounded-3">Pool</span>
+                    <span class="badge bg-white text-dark border fw-normal p-2 px-3 shadow-sm rounded-3">AC</span>
+                    <span class="badge bg-white text-dark border fw-normal p-2 px-3 shadow-sm rounded-3">WiFi</span>
+                {% endif %}
             </div>
         </div>
 
@@ -111,7 +123,7 @@
 
             if (diff < 0) {
                 clearInterval(x);
-                timerElement.innerHTML = "EXPIRED";
+                timerElement.innerHTML = "OFFER EXPIRED";
                 return;
             }
 
