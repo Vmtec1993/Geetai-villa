@@ -1,7 +1,7 @@
 import os
 import json
 import gspread
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
 from datetime import datetime
@@ -48,19 +48,20 @@ def send_telegram_alert(message):
 def index():
     villas = []
     if sheet:
-        villas = sheet.get_all_records()
-        for v in villas:
-            v['Original_Price'] = v.get('Original_Price', '')
-            v['Offer'] = v.get('Offer', '')
-            v['Status'] = v.get('Status', 'Available')
+        try:
+            villas = sheet.get_all_records()
+            for v in villas:
+                v['Original_Price'] = v.get('Original_Price', '')
+                v['Offer'] = v.get('Offer', '')
+                v['Status'] = v.get('Status', 'Available')
+        except Exception as e:
+            print(f"Index Load Error: {e}")
     return render_template('index.html', villas=villas)
 
-# Naya Add Kiya: About Page
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-# Naya Add Kiya: Contact Page
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
@@ -105,7 +106,7 @@ def enquiry(villa_id):
 
             alert_text = (
                 f"🔔 *New Booking Enquiry!*\n\n"
-                f"🏡 *Villa:* {villa.get('Villa_Name')}\n"
+                f"🏡 *Villa:* {villa.get('Villa_Name') if villa else 'Unknown'}\n"
                 f"👤 *Name:* {name}\n"
                 f"📞 *Phone:* {phone}\n"
                 f"📅 *Stay:* {check_in} to {check_out}\n"
