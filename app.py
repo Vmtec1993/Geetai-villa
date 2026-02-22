@@ -51,11 +51,12 @@ def index():
         villas = sheet.get_all_records()
         for v in villas:
             v['Original_Price'] = v.get('Original_Price', '')
+            # --- Ye Lines Offer aur Guests ko dynamic banati hain ---
             v['Offer'] = v.get('Offer', '')
+            v['Offer_End'] = v.get('Offer_End', '') # Countdown ke liye
+            v['Guests'] = v.get('Guests', '12')     # Sheet se Guests ka data
             v['Status'] = v.get('Status', 'Available')
     return render_template('index.html', villas=villas)
-
-# --- Naye Pages Yahan Add Kiye Hain ---
 
 @app.route('/about')
 def about():
@@ -64,8 +65,6 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-# ------------------------------------
 
 @app.route('/villa/<villa_id>')
 def villa_details(villa_id):
@@ -80,6 +79,9 @@ def villa_details(villa_id):
             villa['Amenities'] = villa.get('Amenities', '')
             villa['Rules'] = villa.get('Rules', '')
             villa['Status'] = villa.get('Status', 'Available')
+            # Details page ke liye bhi offer
+            villa['Offer'] = villa.get('Offer', '')
+            villa['Offer_End'] = villa.get('Offer_End', '')
             return render_template('villa_details.html', villa=villa)
     return "Villa info not found", 404
 
@@ -124,4 +126,4 @@ def enquiry(villa_id):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-            
+    
