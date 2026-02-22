@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MoreVistas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root { --primary-blue: #0d6efd; --dark-bg: #f8f9fa; }
+        body { background-color: var(--dark-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Sidebar/Header */
+        .admin-nav { background: white; border-bottom: 1px solid #dee2e6; padding: 15px 0; }
+        .stats-card { border: none; border-radius: 15px; transition: 0.3s; }
+        .stats-card:hover { transform: translateY(-5px); }
+        
+        /* Table Styling */
+        .table-container { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .table thead { background: #f8f9fa; }
+        .table thead th { border: none; color: #6c757d; font-size: 0.85rem; text-transform: uppercase; padding: 15px; }
+        .table tbody td { padding: 15px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; }
+        
+        .status-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
+        .bg-new { background: #e7f3ff; color: #0d6efd; }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold m-0">More<span class="text-primary">Vistas</span> Admin</h4>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-muted small">Welcome, Admin</span>
+                <a href="/admin-logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card stats-card p-4 shadow-sm">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Total Enquiries</p>
+                            <h2 class="fw-bold">{{ enquiries|length }}</h2>
+                        </div>
+                        <div class="icon-box text-primary fs-1"><i class="bi bi-envelope-paper"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card p-4 shadow-sm bg-primary text-white">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="opacity-75 mb-1">Active Villas</p>
+                            <h2 class="fw-bold">Live</h2>
+                        </div>
+                        <div class="icon-box text-white fs-1"><i class="bi bi-house-check"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card p-4 shadow-sm">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Quick Links</p>
+                            <a href="https://docs.google.com/spreadsheets/d/1wXlMNAUuW2Fr4L05ahxvUNn0yvMedcVosTRJzZf_1ao" target="_blank" class="btn btn-sm btn-link p-0 text-decoration-none">Open Google Sheet <i class="bi bi-box-arrow-up-right"></i></a>
+                        </div>
+                        <div class="icon-box text-success fs-1"><i class="bi bi-table"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0">Recent Enquiries</h5>
+                <button class="btn btn-light btn-sm" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Stay Dates</th>
+                            <th>Guests</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in enquiries %}
+                        <tr>
+                            <td class="small text-muted">{{ row.get('Date', row.get('Timestamp', 'N/A')) }}</td>
+                            <td><span class="fw-bold">{{ row.get('Name', 'Unknown') }}</span></td>
+                            <td><a href="https://wa.me/91{{ row.get('Phone') }}" target="_blank" class="text-decoration-none"><i class="bi bi-whatsapp text-success"></i> {{ row.get('Phone') }}</a></td>
+                            <td class="small">{{ row.get('Check-in') }} to {{ row.get('Check-out') }}</td>
+                            <td><span class="badge bg-new status-badge">{{ row.get('Guests') }} Ppl</span></td>
+                            <td class="small text-muted">{{ row.get('Message', 'No message')[:30] }}...</td>
+                        </tr>
+                        {% endfor %}
+                        {% if not enquiries %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">No enquiries found yet.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 pb-4 text-muted small">
+        &copy; 2026 MoreVistas Admin Control Panel
+    </footer>
+
+</body>
+</html>
