@@ -1,22 +1,87 @@
-<footer style="background: #1a1a1a; color: #999; padding: 60px 0 20px; text-align: center; border-top: 1px solid #333;">
-    <div class="container">
-        <h2 style="color: white; font-weight: 800; margin-bottom: 5px;">More<span style="color: #0d6efd;">Vistas</span></h2>
-        <p style="font-size: 0.9rem; margin-bottom: 30px; opacity: 0.8;">Curating memories in Lonavala.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoreVistas - Luxury Villas in Lonavala</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-        <div style="margin-bottom: 30px;">
-            <a href="/" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">Home</a>
-            <a href="/about" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">About</a>
-            <a href="/contact" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">Contact</a>
-        </div>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcfcfc;
+            color: #2d3436;
+        }
 
-        <div style="margin-bottom: 30px; font-size: 1.5rem;">
-            <a href="#" style="color: white; margin: 0 10px;"><i class="bi bi-instagram"></i></a>
-            <a href="#" style="color: white; margin: 0 10px;"><i class="bi bi-facebook"></i></a>
-        </div>
+        /* Navbar Styling */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        .nav-link {
+            font-weight: 600;
+            color: #2d3436 !important;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
+        .nav-link:hover {
+            color: #0d6efd !important;
+        }
 
-        <div style="border-top: 1px solid #222; padding-top: 20px; margin-top: 20px; opacity: 0.6; font-size: 0.8rem;">
-            <p style="margin-bottom: 5px;">© 2026 MoreVistas. Private Luxury Escapes.</p>
-            <p>© 2026 MoreVistas. Built with ❤️ in Lonavala.</p>
+        /* Button Styling */
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 25px;
+        }
+
+        /* Hero Text Shadows */
+        .text-shadow {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-dark" href="/">
+                More<span class="text-primary">Vistas</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-primary btn-sm rounded-pill px-4">
+                            <i class="bi bi-whatsapp me-2"></i>Book Now
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</footer>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
