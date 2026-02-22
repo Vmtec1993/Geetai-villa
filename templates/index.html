@@ -11,6 +11,17 @@
     /* Villa Card Styles */
     .villa-card { transition: 0.4s; border-radius: 20px !important; border: none; overflow: hidden; background: #fff; position: relative; margin-bottom: 25px; }
     .villa-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important; }
+    
+    /* ✅ Sold Out Ribbon Styling */
+    .ribbon-wrapper { position: absolute; top: 0; left: 0; width: 100px; height: 100px; overflow: hidden; z-index: 15; }
+    .sold-out-ribbon {
+        position: absolute; display: block; width: 150px; padding: 5px 0;
+        background-color: #ff4d4d; color: #fff; font-size: 11px; font-weight: 800;
+        text-align: center; text-transform: uppercase; transform: rotate(-45deg);
+        left: -35px; top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .sold-out-overlay { filter: grayscale(0.5); opacity: 0.8; }
+
     .discount-tag { position: absolute; top: 15px; right: 15px; background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; font-weight: 800; font-size: 0.8rem; z-index: 10; }
     .offer-badge { background: #ff4d4d; color: white; padding: 4px 15px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin-bottom: 5px; }
     .timer-text { font-size: 0.75rem; font-weight: 700; color: #ff4d4d; margin-top: 2px; display: block; }
@@ -27,14 +38,8 @@
 
     /* ✅ Share Button Styling inside Card */
     .btn-share-card {
-        width: 38px;
-        height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50% !important;
-        padding: 0;
-        transition: 0.3s;
+        width: 38px; height: 38px; display: flex; align-items: center;
+        justify-content: center; border-radius: 50% !important; padding: 0; transition: 0.3s;
     }
     .btn-share-card:hover { background-color: #0d6efd; color: white; border-color: #0d6efd; }
 </style>
@@ -56,14 +61,21 @@
     <div class="row g-4">
         {% for villa in villas %}
         <div class="col-md-4">
-            <div class="card h-100 villa-card shadow-sm">
+            <div class="card h-100 villa-card shadow-sm {% if villa.get('Status') == 'Sold Out' %}sold-out-overlay{% endif %}">
                 <div style="height: 250px; position: relative;">
+                    
+                    {% if villa.get('Status') == 'Sold Out' %}
+                    <div class="ribbon-wrapper">
+                        <div class="sold-out-ribbon">Sold Out</div>
+                    </div>
+                    {% endif %}
+
                     <img src="{{ villa.get('Image_URL', '') }}" class="w-100 h-100" style="object-fit: cover;">
                     
                     {% set current = (villa.get('Price') or 0) | float %}
                     {% set original = (villa.get('Original_Price') or 0) | float %}
                     
-                    {% if original > current and current > 0 %}
+                    {% if villa.get('Status') != 'Sold Out' and original > current and current > 0 %}
                         {% set disc = (((original - current) / original) * 100) | round | int %}
                         <div class="discount-tag">{{ disc }}% OFF</div>
                     {% endif %}
@@ -81,7 +93,7 @@
                     <div class="pt-3 border-top">
                         <div class="text-center mb-3">
                             {% set offer = villa.get('Offer', '') | string %}
-                            {% if offer and offer != 'nan' and offer != '' %}
+                            {% if villa.get('Status') != 'Sold Out' and offer and offer != 'nan' and offer != '' %}
                                 <div class="offer-badge"><i class="bi bi-fire"></i> {{ offer }}</div>
                                 {% if villa.Offer_End and villa.Offer_End|string != 'nan' %}
                                     <span class="timer-text card-timer" data-expire="{{ villa.Offer_End }}">Ends in: Loading...</span>
@@ -102,11 +114,16 @@
                                     <div class="px-3 py-1 bg-light border rounded text-primary fw-bold small">Price on Request</div>
                                 {% endif %}
                             </div>
+                            
                             <div class="d-flex gap-2">
-                                <a href="/villa/{{ villa.get('Villa_ID') }}" class="btn btn-dark rounded-pill px-4 btn-sm fw-bold">Explore</a>
-                                <button onclick="shareSingleVilla('{{ villa.get('Villa_Name') }}', '{{ villa.get('Villa_ID') }}')" class="btn btn-outline-dark btn-sm btn-share-card" title="Share Villa">
-                                    <i class="bi bi-share"></i>
-                                </button>
+                                {% if villa.get('Status') == 'Sold Out' %}
+                                    <button class="btn btn-secondary rounded-pill px-3 btn-sm fw-bold" disabled>Sold Out</button>
+                                {% else %}
+                                    <a href="/villa/{{ villa.get('Villa_ID') }}" class="btn btn-dark rounded-pill px-4 btn-sm fw-bold">Explore</a>
+                                    <button onclick="shareSingleVilla('{{ villa.get('Villa_Name') }}', '{{ villa.get('Villa_ID') }}')" class="btn btn-outline-dark btn-sm btn-share-card" title="Share Villa">
+                                        <i class="bi bi-share"></i>
+                                    </button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
