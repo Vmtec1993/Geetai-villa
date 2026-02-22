@@ -1,86 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoreVistas | Luxury Stays 2026</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fbfbfb; }
-        
-        /* लोगो सेटिंग्स */
-        .brand-logo { height: 75px !important; width: auto; margin: -10px 0; object-fit: contain; }
-        .nav-brand-text { font-weight: 800; font-size: 1.6rem; color: #1a1a1a; letter-spacing: -1px; text-decoration: none; }
-        
-        .discount-tag-mini {
-            font-size: 0.65rem; background-color: #28a745; color: white;
-            padding: 1px 6px; border-radius: 4px; font-weight: 800;
-            display: inline-block; margin-left: 5px; text-transform: uppercase;
-            vertical-align: middle; line-height: 1.2;
-        }
+<footer style="background: #1a1a1a; color: #999; padding: 60px 0 20px; text-align: center; border-top: 1px solid #333;">
+    <div class="container">
+        <h2 style="color: white; font-weight: 800; margin-bottom: 5px;">More<span style="color: #0d6efd;">Vistas</span></h2>
+        <p style="font-size: 0.9rem; margin-bottom: 30px; opacity: 0.8;">Curating memories in Lonavala.</p>
 
-        .promo-bar { background: #ff4d4d; color: white; padding: 8px 0; font-weight: 600; overflow: hidden; }
-        .offcanvas { width: 280px !important; }
-        .nav-link:hover { color: #0d6efd !important; background: #f8f9fa; border-radius: 8px; }
-
-        @media (max-width: 576px) {
-            .brand-logo { height: 65px !important; }
-            .nav-brand-text { font-size: 1.3rem; }
-        }
-    </style>
-</head>
-<body>
-    <div class="promo-bar">
-        <marquee scrollamount="8" onmouseover="this.stop();" onmouseout="this.start();">
-            🔥 SPECIAL 2026 OFFER: Use Code 'MOREVISTAS' for 35% OFF | Weekend Special Live Now! 🔥
-        </marquee>
-    </div>
-
-    <nav class="navbar navbar-light bg-white sticky-top shadow-sm py-1">
-        <div class="container d-flex align-items-center justify-content-between">
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand d-flex align-items-center mx-auto" href="/">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="brand-logo">
-                <span class="nav-brand-text">More<span class="text-primary">Vistas</span></span>
-            </a>
-            <div style="width: 45px;"></div> 
+        <div style="margin-bottom: 30px;">
+            <a href="/" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">Home</a>
+            <a href="/about" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">About</a>
+            <a href="/contact" style="color: white; text-decoration: none; margin: 0 15px; font-size: 1rem;">Contact</a>
         </div>
-    </nav>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title fw-bold">MoreVistas Menu</h5>
-            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
+        <div style="margin-bottom: 30px; font-size: 1.5rem;">
+            <a href="#" style="color: white; margin: 0 10px;"><i class="bi bi-instagram"></i></a>
+            <a href="#" style="color: white; margin: 0 10px;"><i class="bi bi-facebook"></i></a>
         </div>
-        <div class="offcanvas-body">
-            <ul class="nav flex-column gap-2 fs-5">
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-medium" href="/"><i class="bi bi-house me-2"></i> Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-medium" href="/about"><i class="bi bi-info-circle me-2"></i> About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-medium" href="/contact"><i class="bi bi-telephone me-2"></i> Contact Us</a>
-                </li>
-            </ul>
-            <div class="mt-5 pt-3 border-top">
-                <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-success w-100 rounded-pill fw-bold">
-                    <i class="bi bi-whatsapp me-2"></i> WhatsApp Us
-                </a>
-            </div>
+
+        <div style="border-top: 1px solid #222; padding-top: 20px; margin-top: 20px; opacity: 0.6; font-size: 0.8rem;">
+            <p style="margin-bottom: 5px;">© 2026 MoreVistas. Private Luxury Escapes.</p>
+            <p>© 2026 MoreVistas. Built with ❤️ in Lonavala.</p>
         </div>
     </div>
-
-    {% block content %}{% endblock %}
-
-    <footer class="bg-dark text-white pt-5 pb-4 mt-5 text-center">
-        <p>© 2026 MoreVistas. Built with ❤️ in Lonavala.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</footer>
