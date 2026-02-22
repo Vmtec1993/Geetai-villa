@@ -16,13 +16,15 @@
         .stats-card:hover { transform: translateY(-5px); }
         
         /* Table Styling */
-        .table-container { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .table-container { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px; }
         .table thead { background: #f8f9fa; }
         .table thead th { border: none; color: #6c757d; font-size: 0.85rem; text-transform: uppercase; padding: 15px; }
         .table tbody td { padding: 15px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; }
         
         .status-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
         .bg-new { background: #e7f3ff; color: #0d6efd; }
+        .bg-sold { background: #ffe5e5; color: #dc3545; }
+        .bg-available { background: #e8f5e9; color: #2e7d32; }
     </style>
 </head>
 <body>
@@ -54,8 +56,8 @@
                 <div class="card stats-card p-4 shadow-sm bg-primary text-white">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <p class="opacity-75 mb-1">Active Villas</p>
-                            <h2 class="fw-bold">Live</h2>
+                            <p class="opacity-75 mb-1">Total Villas</p>
+                            <h2 class="fw-bold">{{ villas|length }}</h2>
                         </div>
                         <div class="icon-box text-white fs-1"><i class="bi bi-house-check"></i></div>
                     </div>
@@ -76,7 +78,49 @@
 
         <div class="table-container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold m-0">Recent Enquiries</h5>
+                <h5 class="fw-bold m-0"><i class="bi bi-gear-fill me-2"></i>Villa Inventory Control</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Villa Name</th>
+                            <th>Status</th>
+                            <th>Quick Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for villa in villas %}
+                        <tr>
+                            <td><span class="fw-bold">{{ villa.get('Villa_Name') }}</span></td>
+                            <td>
+                                {% if villa.get('Status') == 'Sold Out' %}
+                                    <span class="badge bg-sold status-badge">Sold Out</span>
+                                {% else %}
+                                    <span class="badge bg-available status-badge">Available</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if villa.get('Status') == 'Sold Out' %}
+                                    <a href="/update-status/{{ villa.get('Villa_ID') }}/Available" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                        Mark Available
+                                    </a>
+                                {% else %}
+                                    <a href="/update-status/{{ villa.get('Villa_ID') }}/Sold Out" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                        Mark Sold Out
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0"><i class="bi bi-chat-left-dots-fill me-2"></i>Recent Enquiries</h5>
                 <button class="btn btn-light btn-sm" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
             </div>
             
