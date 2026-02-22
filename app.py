@@ -164,6 +164,8 @@ def enquiry(villa_id):
     return "Error", 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    # Render के लिए पोर्ट 10000 या Environment Variable ज़रूरी है
+    port = int(os.environ.get("PORT", 10000)) 
     app.run(host='0.0.0.0', port=port)
+
             
