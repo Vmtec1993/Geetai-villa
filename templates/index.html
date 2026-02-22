@@ -24,6 +24,19 @@
     .footer-logo-img { height: 75px; width: auto; margin-bottom: 20px; }
     .social-icons a { color: white; font-size: 1.8rem; margin: 0 15px; display: inline-block; }
     .footer-bottom { background: #141414; padding: 30px 0; margin-top: 40px; border-top: 1px solid #222; }
+
+    /* ✅ Share Button Styling inside Card */
+    .btn-share-card {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50% !important;
+        padding: 0;
+        transition: 0.3s;
+    }
+    .btn-share-card:hover { background-color: #0d6efd; color: white; border-color: #0d6efd; }
 </style>
 
 <div class="offer-runner">
@@ -89,7 +102,12 @@
                                     <div class="px-3 py-1 bg-light border rounded text-primary fw-bold small">Price on Request</div>
                                 {% endif %}
                             </div>
-                            <a href="/villa/{{ villa.get('Villa_ID') }}" class="btn btn-dark rounded-pill px-4 btn-sm fw-bold">Explore</a>
+                            <div class="d-flex gap-2">
+                                <a href="/villa/{{ villa.get('Villa_ID') }}" class="btn btn-dark rounded-pill px-4 btn-sm fw-bold">Explore</a>
+                                <button onclick="shareSingleVilla('{{ villa.get('Villa_Name') }}', '{{ villa.get('Villa_ID') }}')" class="btn btn-outline-dark btn-sm btn-share-card" title="Share Villa">
+                                    <i class="bi bi-share"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
