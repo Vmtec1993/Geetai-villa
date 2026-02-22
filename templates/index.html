@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<style>
+    .villa-card { transition: 0.3s; border-radius: 20px !important; overflow: hidden; }
+    .villa-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; }
+    
+    /* डिस्काउंट टैग जो गायब हो गया था */
+    .discount-badge-mini {
+        font-size: 0.7rem;
+        background-color: #28a745;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 800;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px;
+        text-transform: uppercase;
+    }
+</style>
+
 <header class="py-5 text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; padding: 80px 0 !important;">
     <div class="container">
         <h1 class="display-4 fw-bold">Welcome to MoreVistas</h1>
@@ -10,28 +29,41 @@
 
 <div class="container my-5">
     <div class="row g-4">
-        {% if villas %}
-            {% for villa in villas %}
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    <img src="{{ villa.get('Image_URL', '') }}" class="card-img-top" style="height: 200px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9daa3b6af?q=80&w=1000';">
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold">{{ villa.get('Villa_Name', 'Luxury Villa') }}</h5>
-                        <p class="text-muted small"><i class="bi bi-geo-alt"></i> Lonavala</p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="fw-bold text-primary">₹{{ villa.get('Price', 'N/A') }} <small class="text-muted">/night</small></span>
-                            <a href="/villa/{{ villa.get('Villa_ID', '') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3">View Details</a>
+        {% for villa in villas %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm villa-card">
+                <div style="height: 230px; overflow: hidden;">
+                    <img src="{{ villa.get('Image_URL', '') }}" class="w-100 h-100" style="object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9daa3b6af?q=80&w=1000';">
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="fw-bold m-0">{{ villa.get('Villa_Name', 'Luxury Villa') }}</h5>
+                        <span class="badge bg-light text-primary border">{{ villa.get('BHK', '3') }} BHK</span>
+                    </div>
+                    <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger"></i> Lonavala</p>
+
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                        <div>
+                            {% set original = (villa.get('Original_Price') or 0) | float %}
+                            {% set current = (villa.get('Price') or 0) | float %}
+                            
+                            {% if original > current and current > 0 %}
+                                <div class="mb-0" style="line-height: 1;">
+                                    <small class="text-muted text-decoration-line-through">₹{{ original | int }}</small>
+                                    <span class="discount-badge-mini">{{ (((original - current) / original) * 100) | round | int }}% OFF</span>
+                                </div>
+                            {% endif %}
+                            
+                            <h5 class="m-0 fw-bold text-primary">₹{{ current | int }}<small class="text-muted fw-normal fs-6">/night</small></h5>
                         </div>
+                        <a href="/villa/{{ villa.get('Villa_ID', '') }}" class="btn btn-primary rounded-pill px-4 btn-sm fw-bold">View</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="col-12 text-center py-5">
-                <h3 class="text-muted">No villas found. Check Google Sheets connection.</h3>
-            </div>
-        {% endif %}
+        </div>
+        {% endfor %}
     </div>
 </div>
 
-{% endblock %} 
+{% endblock %}
