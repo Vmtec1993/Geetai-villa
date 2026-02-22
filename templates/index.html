@@ -2,24 +2,17 @@
 {% block content %}
 
 <style>
-    /* Card Design */
+    /* विला कार्ड डिज़ाइन */
     .villa-card { transition: 0.4s; border-radius: 20px !important; border: none; overflow: hidden; background: #fff; position: relative; margin-bottom: 25px; }
     .villa-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.12) !important; }
     
-    /* Green Discount Tag */
+    /* 🏷️ Discount Tag (35% OFF) */
     .discount-tag { position: absolute; top: 15px; right: 15px; z-index: 20; background: #28a745; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; }
-    
-    /* Red Offer Tag */
     .offer-badge { position: absolute; top: 15px; left: 15px; z-index: 20; background: #ff4d4d; color: white; padding: 6px 14px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; }
 
-    /* Info Icons (BHK/Guests) */
-    .villa-info { font-size: 0.9rem; color: #666; font-weight: 600; }
-    .villa-info i { color: #0d6efd; margin-right: 5px; }
-
-    /* Footer Logo & Styling */
+    /* 🖤 Footer & Logo Fix */
     .final-footer { background: #1a1a1a; color: #ffffff; padding: 60px 0 0; text-align: center; margin-top: 50px; }
-    /* यहाँ अपना लोगो इमेज URL बदलें */
-    .footer-logo-img { height: 45px; margin-bottom: 15px; filter: brightness(0) invert(1); } 
+    .footer-logo-img { height: 60px; width: auto; margin-bottom: 15px; } /* लोगो की साइज यहाँ से सेट करें */
     .footer-bottom { background: #141414; padding: 25px 0; margin-top: 40px; border-top: 1px solid #222; }
 </style>
 
@@ -49,9 +42,9 @@
                     <h5 class="fw-bold mb-1">{{ villa.get('Villa_Name', 'Luxury Villa') }}</h5>
                     <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger"></i> Lonavala, MH</p>
                     
-                    <div class="d-flex gap-4 mb-3 villa-info">
-                        <span><i class="bi bi-people-fill"></i>{{ villa.get('Guests', '12-15') }} Guests</span>
-                        <span><i class="bi bi-door-open-fill"></i>{{ villa.get('BHK', '3') }} BHK</span>
+                    <div class="d-flex gap-4 mb-3" style="font-weight: 600; color: #555;">
+                        <span><i class="bi bi-people-fill text-primary"></i> {{ villa.get('Guests', '12-15') }} Guests</span>
+                        <span><i class="bi bi-door-open-fill text-primary"></i> {{ villa.get('BHK', '3') }} BHK</span>
                     </div>
 
                     <div class="d-flex align-items-center justify-content-between pt-3 border-top">
@@ -76,31 +69,10 @@
     </div>
 </div>
 
-<section class="bg-light py-5 border-top">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-5">Why <span class="text-primary">Stay With Us</span>?</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <i class="bi bi-shield-check fs-1 text-primary"></i>
-                <h5 class="fw-bold mt-3">Verified Villas</h5>
-            </div>
-            <div class="col-md-4">
-                <i class="bi bi-headset fs-1 text-primary"></i>
-                <h5 class="fw-bold mt-3">24/7 Support</h5>
-            </div>
-            <div class="col-md-4">
-                <i class="bi bi-stars fs-1 text-primary"></i>
-                <h5 class="fw-bold mt-3">Luxury Service</h5>
-            </div>
-        </div>
-    </div>
-</section>
-
 <footer class="final-footer">
     <div class="container">
         <a href="/">
-            <img src="https://static.wixstatic.com/media/your-logo-file.png" alt="MoreVistas" class="footer-logo-img" onerror="this.style.display='none'">
-            <h2 class="text-white fw-bold d-inline-block align-middle ms-2">More<span class="text-primary">Vistas</span></h2>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MoreVistas Logo" class="footer-logo-img" onerror="this.outerHTML='<h2 class=\'text-white fw-bold\'>More<span class=\'text-primary\'>Vistas</span></h2>'">
         </a>
         <p class="small opacity-50 mb-4 mt-2">Curating memories in Lonavala.</p>
         
