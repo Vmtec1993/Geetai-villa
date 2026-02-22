@@ -1,14 +1,16 @@
 import os
 import json
 import gspread
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session  # ✅ session add kiya
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
 from datetime import datetime
 
 app = Flask(__name__)
+# ✅ Session के लिए Secret Key (इसे बदलना मत)
+app.secret_key = "morevistas_admin_secure_key_2026" 
 
-# --- Google Sheets Setup ---
+# --- Google Sheets Setup --- (आपका पुराना कोड वैसा ही रहेगा)
 creds_json = os.environ.get('GOOGLE_CREDS')
 sheet = None
 enquiry_sheet = None
@@ -31,7 +33,7 @@ if creds_json:
     except Exception as e:
         print(f"Sheet Error: {e}")
 
-# --- Telegram Setup ---
+# --- Telegram Setup --- (आपका पुराना कोड)
 TELEGRAM_TOKEN = "7913354522:AAH1XxMP1EMWC59fpZezM8zunZrWQcAqH18"
 TELEGRAM_CHAT_ID = "6746178673"
 
@@ -51,12 +53,51 @@ def index():
         villas = sheet.get_all_records()
         for v in villas:
             v['Original_Price'] = v.get('Original_Price', '')
-            # --- Ye Lines Offer aur Guests ko dynamic banati hain ---
             v['Offer'] = v.get('Offer', '')
-            v['Offer_End'] = v.get('Offer_End', '') # Countdown ke liye
-            v['Guests'] = v.get('Guests', '12')     # Sheet se Guests ka data
+            v['Offer_End'] = v.get('Offer_End', '')
+            v['Guests'] = v.get('Guests', '12')
             v['Status'] = v.get('Status', 'Available')
     return render_template('index.html', villas=villas)
+
+# ✅ --- New Admin Routes (Admin Login & Dashboard) ---
+
+@app.route('/admin-login', methods=['GET', 'POST'])
+def admin_login():
+    error = None
+    if request.method == 'POST':
+        user = request.form.get('username')
+        pwd = request.form.get('password')
+        
+        # 🔑 अपना आईडी और पासवर्ड यहाँ सेट करें
+        if user == "admin" and pwd == "MoreVistas@2026":
+            session['admin_logged_in'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            error = "Invalid Username or Password!"
+            
+    return render_template('admin_login.html', error=error)
+
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    # चेक करें कि एडमिन लॉगिन है या नहीं
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_login'))
+    
+    # डैशबोर्ड के लिए एन्क्वायरी का डेटा शीट से उठाएं
+    enquiries = []
+    if enquiry_sheet:
+        enquiries = enquiry_sheet.get_all_records()
+        enquiries.reverse() # ताकी नई एन्क्वायरी ऊपर दिखे
+        
+    return render_template('admin_dashboard.html', enquiries=enquiries)
+
+@app.route('/admin-logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('admin_login'))
+
+# --- (पुराने रूट्स: /about, /contact, /villa_details, /enquiry) ---
+# ... (बाकी का कोड जो आपने ऊपर दिया है वो यहाँ वैसा ही रहेगा) ...
 
 @app.route('/about')
 def about():
@@ -79,7 +120,6 @@ def villa_details(villa_id):
             villa['Amenities'] = villa.get('Amenities', '')
             villa['Rules'] = villa.get('Rules', '')
             villa['Status'] = villa.get('Status', 'Available')
-            # Details page ke liye bhi offer
             villa['Offer'] = villa.get('Offer', '')
             villa['Offer_End'] = villa.get('Offer_End', '')
             return render_template('villa_details.html', villa=villa)
@@ -126,4 +166,4 @@ def enquiry(villa_id):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-    
+            
